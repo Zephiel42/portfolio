@@ -11,7 +11,12 @@ import InfoButton from "../components/InfoButton";
 import EmbeddedPanel from "../components/EmbeddedPanel";
 import GameHUD from "../components/game/GameHUD";
 import { useLang } from "../context/LangContext";
-import { ApiObject, buildObject, makeCrossMarker, makeLabel } from "./sceneHelpers";
+import {
+    ApiObject,
+    buildObject,
+    makeCrossMarker,
+    makeLabel,
+} from "./sceneHelpers";
 import { useGame } from "./game/useGame";
 import { useToast } from "../hooks/useToast";
 import { useDust } from "../hooks/useDust";
@@ -99,11 +104,17 @@ export default function Home() {
         const jump = jumpRef.current;
         const movable = movableRef.current;
         if (jump && movable) {
-            const t = Math.min((performance.now() - jump.startTime) / jump.duration, 1);
+            const t = Math.min(
+                (performance.now() - jump.startTime) / jump.duration,
+                1,
+            );
             const te = 1 - (1 - t) * (1 - t);
-            movable.mesh.position.x = jump.from.x + (jump.to.x - jump.from.x) * te;
-            movable.mesh.position.z = jump.from.z + (jump.to.z - jump.from.z) * te;
-            movable.mesh.position.y = jump.baseY + Math.sin(t * Math.PI) * jump.arcHeight;
+            movable.mesh.position.x =
+                jump.from.x + (jump.to.x - jump.from.x) * te;
+            movable.mesh.position.z =
+                jump.from.z + (jump.to.z - jump.from.z) * te;
+            movable.mesh.position.y =
+                jump.baseY + Math.sin(t * Math.PI) * jump.arcHeight;
             if (t >= 1) {
                 movable.mesh.position.set(jump.to.x, jump.baseY, jump.to.z);
                 // Landing dust
@@ -118,27 +129,59 @@ export default function Home() {
                 const pending = pendingDestRef.current;
                 if (pending) {
                     pendingDestRef.current = null;
-                    const fromX = landed.to.x, fromZ = landed.to.z, baseY = landed.baseY;
-                    const dx = pending.x - fromX, dz = pending.z - fromZ;
-                    const dist2D = Math.sqrt(dx*dx + dz*dz);
+                    const fromX = landed.to.x,
+                        fromZ = landed.to.z,
+                        baseY = landed.baseY;
+                    const dx = pending.x - fromX,
+                        dz = pending.z - fromZ;
+                    const dist2D = Math.sqrt(dx * dx + dz * dz);
                     if (dist2D >= 0.1) {
-                        const jumpRatio = Math.min(dist2D, MAX_JUMP_RANGE) / dist2D;
-                        const destX = Math.max(-WORLD_BOUNDS, Math.min(WORLD_BOUNDS, fromX + dx * jumpRatio));
-                        const destZ = Math.max(-WORLD_BOUNDS, Math.min(WORLD_BOUNDS, fromZ + dz * jumpRatio));
-                        const clampedDist = Math.sqrt((destX-fromX)**2 + (destZ-fromZ)**2);
+                        const jumpRatio =
+                            Math.min(dist2D, MAX_JUMP_RANGE) / dist2D;
+                        const destX = Math.max(
+                            -WORLD_BOUNDS,
+                            Math.min(WORLD_BOUNDS, fromX + dx * jumpRatio),
+                        );
+                        const destZ = Math.max(
+                            -WORLD_BOUNDS,
+                            Math.min(WORLD_BOUNDS, fromZ + dz * jumpRatio),
+                        );
+                        const clampedDist = Math.sqrt(
+                            (destX - fromX) ** 2 + (destZ - fromZ) ** 2,
+                        );
                         if (clampedDist >= 0.1) {
                             let blocked = false;
                             for (const nm of nonMovablesRef.current) {
-                                if (Math.sqrt((nm.pos.x-destX)**2 + (nm.pos.y-destZ)**2) < BLOCK_RADIUS) { blocked = true; break; }
+                                if (
+                                    Math.sqrt(
+                                        (nm.pos.x - destX) ** 2 +
+                                            (nm.pos.y - destZ) ** 2,
+                                    ) < BLOCK_RADIUS
+                                ) {
+                                    blocked = true;
+                                    break;
+                                }
                             }
                             if (!blocked) {
                                 jumpRef.current = {
-                                    from: new THREE.Vector3(fromX, baseY, fromZ),
-                                    to:   new THREE.Vector3(destX, baseY, destZ),
+                                    from: new THREE.Vector3(
+                                        fromX,
+                                        baseY,
+                                        fromZ,
+                                    ),
+                                    to: new THREE.Vector3(destX, baseY, destZ),
                                     startTime: performance.now(),
-                                    duration:  JUMP_DURATION_MS * Math.pow(clampedDist / MAX_JUMP_RANGE, 0.6),
-                                    arcHeight: (clampedDist / MAX_JUMP_RANGE) * MAX_ARC_HEIGHT,
-                                    baseY, targetId: movable.id,
+                                    duration:
+                                        JUMP_DURATION_MS *
+                                        Math.pow(
+                                            clampedDist / MAX_JUMP_RANGE,
+                                            0.6,
+                                        ),
+                                    arcHeight:
+                                        (clampedDist / MAX_JUMP_RANGE) *
+                                        MAX_ARC_HEIGHT,
+                                    baseY,
+                                    targetId: movable.id,
                                 };
                                 // Takeoff dust for queued jump
                                 spawnDust(new THREE.Vector3(fromX, 0, fromZ));
@@ -230,7 +273,8 @@ export default function Home() {
                             });
                             if (obj.path || obj.subtitle) {
                                 const labelId = `${sceneId}-label`;
-                                const displayName = tRef.current.labels[obj.label] ?? obj.label;
+                                const displayName =
+                                    tRef.current.labels[obj.label] ?? obj.label;
                                 const sprite = makeLabel(
                                     displayName,
                                     obj.subtitle ?? "",
@@ -239,10 +283,20 @@ export default function Home() {
                                 engine.addObject({ id: labelId, mesh: sprite });
                                 loadedIdsRef.current.push(labelId);
                                 if (obj.label === "Start Game") {
-                                    game.startCubeRef.current = { sceneId, mesh, labelId, labelMesh: sprite };
+                                    game.startCubeRef.current = {
+                                        sceneId,
+                                        mesh,
+                                        labelId,
+                                        labelMesh: sprite,
+                                    };
                                 }
                             } else if (obj.label === "Start Game") {
-                                game.startCubeRef.current = { sceneId, mesh, labelId: null, labelMesh: null };
+                                game.startCubeRef.current = {
+                                    sceneId,
+                                    mesh,
+                                    labelId: null,
+                                    labelMesh: null,
+                                };
                             }
                         }
                     });
@@ -389,9 +443,12 @@ export default function Home() {
     // -------------------------------------------------------------------------
     // Right-click → fire projectile toward ground point
     // -------------------------------------------------------------------------
-    const handleRightClick = useCallback((point: THREE.Vector3) => {
-        game.fireProjectile(point);
-    }, [game.fireProjectile]);
+    const handleRightClick = useCallback(
+        (point: THREE.Vector3) => {
+            game.fireProjectile(point);
+        },
+        [game.fireProjectile],
+    );
 
     // -------------------------------------------------------------------------
     // Gizmo face click → switch scene with iris transition
@@ -403,14 +460,23 @@ export default function Home() {
             const label = tRef.current.faces[face] ?? face;
 
             // Phase 1: mount overlay clipped to nothing (invisible)
-            setFaceOverlay({ clipPath: "circle(0% at 50% 50%)", transition: "none", label });
+            setFaceOverlay({
+                clipPath: "circle(0% at 50% 50%)",
+                transition: "none",
+                label,
+            });
 
             // Phase 2: two rAFs later — animate iris closed (overlay expands)
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     setFaceOverlay((prev) =>
                         prev
-                            ? { ...prev, clipPath: "circle(150% at 50% 50%)", transition: "clip-path 380ms cubic-bezier(0.85,0,0.15,1)" }
+                            ? {
+                                  ...prev,
+                                  clipPath: "circle(150% at 50% 50%)",
+                                  transition:
+                                      "clip-path 380ms cubic-bezier(0.85,0,0.15,1)",
+                              }
                             : null,
                     );
                 });
@@ -422,7 +488,12 @@ export default function Home() {
                 showToast(`${tRef.current.ui.view}: ${label}`);
                 setFaceOverlay((prev) =>
                     prev
-                        ? { ...prev, clipPath: "circle(0% at 50% 50%)", transition: "clip-path 500ms cubic-bezier(0.15,0,0.85,1)" }
+                        ? {
+                              ...prev,
+                              clipPath: "circle(0% at 50% 50%)",
+                              transition:
+                                  "clip-path 500ms cubic-bezier(0.15,0,0.85,1)",
+                          }
                         : null,
                 );
             }, 420);
@@ -497,7 +568,7 @@ export default function Home() {
                         textShadow: "0 2px 12px rgba(0,0,0,0.7)",
                     }}
                 >
-                    Zephiel
+                    Matys Grangaud
                 </span>
                 <span
                     style={{
@@ -548,8 +619,7 @@ export default function Home() {
             >
                 {activeFace === "back"
                     ? "🖱 Click ground to jump  |  Click Start Game to play  |  Right-click / Space to shoot"
-                    : "🖱 Drag to pan  |  Scroll to zoom  |  Click ground to jump  |  Click nearby object to interact"
-                }
+                    : "🖱 Drag to pan  |  Scroll to zoom  |  Click ground to jump  |  Click nearby object to interact"}
             </div>
 
             {faceOverlay && (
@@ -581,7 +651,8 @@ export default function Home() {
                             fontWeight: 700,
                             letterSpacing: 6,
                             textTransform: "uppercase",
-                            textShadow: "0 0 20px rgba(100,140,255,0.95), 0 0 50px rgba(67,97,238,0.6)",
+                            textShadow:
+                                "0 0 20px rgba(100,140,255,0.95), 0 0 50px rgba(67,97,238,0.6)",
                         }}
                     >
                         {faceOverlay.label}

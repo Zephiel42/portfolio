@@ -25,8 +25,8 @@ const LINKS = [
     {
         icon: "⌥",
         label: "GitHub",
-        value: "github.com/username",          // ← update
-        href: "https://github.com/username",   // ← update
+        value: "github.com/Zephiel42",
+        href: "https://github.com/Zephiel42",
         color: "#e6edf3",
         bg: "rgba(255,255,255,0.06)",
         border: "rgba(255,255,255,0.12)",
@@ -35,8 +35,8 @@ const LINKS = [
     {
         icon: "in",
         label: "LinkedIn",
-        value: "linkedin.com/in/username",               // ← update
-        href: "https://linkedin.com/in/username",        // ← update
+        value: "linkedin.com/in/matys-grangaud", // ← update
+        href: "https://linkedin.com/in/matys-grangaud-050718386", // ← update
         color: "#0a66c2",
         bg: "rgba(10,102,194,0.12)",
         border: "rgba(10,102,194,0.35)",
@@ -45,8 +45,8 @@ const LINKS = [
     {
         icon: "@",
         label: "Email",
-        value: "your.email@example.com",       // ← update
-        href: "mailto:your.email@example.com", // ← update
+        value: "matys@grangaud.org", // ← update
+        href: "mailto:matys@grangaud.org", // ← update
         color: "#06d6a0",
         bg: "rgba(6,214,160,0.10)",
         border: "rgba(6,214,160,0.35)",
@@ -55,18 +55,67 @@ const LINKS = [
 ];
 
 const S = {
-    page:   { background:"#0d0d1a", color:"#ddd", minHeight:"100vh", padding:"40px 36px", fontFamily:"sans-serif", boxSizing:"border-box" as const },
-    meta:   { color:"#7209b7", fontWeight:600, fontSize:13, letterSpacing:1, textTransform:"uppercase" as const, marginBottom:6 },
-    title:  { color:"#ffffff", marginTop:4, marginBottom:6, fontSize:26, lineHeight:1.3 },
-    sub:    { color:"#888", fontSize:14, marginBottom:32, maxWidth:480, lineHeight:1.7 },
-    card:   { display:"flex", alignItems:"center", gap:16, padding:"16px 20px", borderRadius:10, marginBottom:14, textDecoration:"none", transition:"filter 0.15s" },
-    icon:   { width:40, height:40, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, fontWeight:700, flexShrink:0 },
-    info:   { display:"flex", flexDirection:"column" as const },
-    lbl:    { fontWeight:600, fontSize:15, marginBottom:2 },
-    val:    { fontSize:12, opacity:0.6 },
-    desc:   { fontSize:12, opacity:0.5, marginTop:3 },
-    hr:     { border:"none", borderTop:"1px solid rgba(255,255,255,0.07)", margin:"32px 0" },
-    hint:   { color:"#555", fontSize:12 },
+    page: {
+        background: "#0d0d1a",
+        color: "#ddd",
+        minHeight: "100vh",
+        padding: "40px 36px",
+        fontFamily: "sans-serif",
+        boxSizing: "border-box" as const,
+    },
+    meta: {
+        color: "#7209b7",
+        fontWeight: 600,
+        fontSize: 13,
+        letterSpacing: 1,
+        textTransform: "uppercase" as const,
+        marginBottom: 6,
+    },
+    title: {
+        color: "#ffffff",
+        marginTop: 4,
+        marginBottom: 6,
+        fontSize: 26,
+        lineHeight: 1.3,
+    },
+    sub: {
+        color: "#888",
+        fontSize: 14,
+        marginBottom: 32,
+        maxWidth: 480,
+        lineHeight: 1.7,
+    },
+    card: {
+        display: "flex",
+        alignItems: "center",
+        gap: 16,
+        padding: "16px 20px",
+        borderRadius: 10,
+        marginBottom: 14,
+        textDecoration: "none",
+        transition: "filter 0.15s",
+    },
+    icon: {
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 16,
+        fontWeight: 700,
+        flexShrink: 0,
+    },
+    info: { display: "flex", flexDirection: "column" as const },
+    lbl: { fontWeight: 600, fontSize: 15, marginBottom: 2 },
+    val: { fontSize: 12, opacity: 0.6 },
+    desc: { fontSize: 12, opacity: 0.5, marginTop: 3 },
+    hr: {
+        border: "none",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        margin: "32px 0",
+    },
+    hint: { color: "#555", fontSize: 12 },
 };
 
 export default function Contact() {
@@ -78,7 +127,7 @@ export default function Contact() {
             <h1 style={S.title}>{t.title}</h1>
             <div style={S.sub}>{t.sub}</div>
 
-            {LINKS.map(link => (
+            {LINKS.map((link) => (
                 <a
                     key={link.key}
                     href={link.href}
@@ -90,15 +139,32 @@ export default function Contact() {
                         border: `1px solid ${link.border}`,
                     }}
                 >
-                    <div style={{ ...S.icon, background: link.bg, border: `1px solid ${link.border}`, color: link.color }}>
+                    <div
+                        style={{
+                            ...S.icon,
+                            background: link.bg,
+                            border: `1px solid ${link.border}`,
+                            color: link.color,
+                        }}
+                    >
                         {link.icon}
                     </div>
                     <div style={S.info}>
-                        <span style={{ ...S.lbl, color: link.color }}>{link.label}</span>
+                        <span style={{ ...S.lbl, color: link.color }}>
+                            {link.label}
+                        </span>
                         <span style={S.val}>{link.value}</span>
                         <span style={S.desc}>{t[link.key]}</span>
                     </div>
-                    <span style={{ marginLeft:"auto", color:"rgba(255,255,255,0.2)", fontSize:18 }}>↗</span>
+                    <span
+                        style={{
+                            marginLeft: "auto",
+                            color: "rgba(255,255,255,0.2)",
+                            fontSize: 18,
+                        }}
+                    >
+                        ↗
+                    </span>
                 </a>
             ))}
 
