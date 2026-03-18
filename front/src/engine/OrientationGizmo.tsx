@@ -100,6 +100,7 @@ export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels
         materialsRef.current = materials;
 
         const cube = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.8, 1.8), materials);
+        cube.rotation.set(0.4, 0.6, 0);
         scene.add(cube);
 
         let frameId = 0;

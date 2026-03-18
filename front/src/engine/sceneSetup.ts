@@ -80,6 +80,9 @@ export function createInnerGround(bounds: number): THREE.Group {
     return group;
 }
 
+// Set to true to enable dynamic face lighting driven by the orientation gizmo
+export const FACE_LIGHTS_ENABLED = false;
+
 // ---------------------------------------------------------------------------
 // Face lights — one PointLight per gizmo face, initially off (intensity = 0)
 // ---------------------------------------------------------------------------

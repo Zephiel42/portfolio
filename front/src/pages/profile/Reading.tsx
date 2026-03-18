@@ -17,11 +17,11 @@ const T = {
         series: {
             label: "Favourite series",
             value: "The Farseer cycles (Robin Hobb)",
-            note: "Three trilogies — the first remains a firm favourite. Royal Assassin is a highlight.",
+            note: "Three trilogies - the first remains a firm favourite. Royal Assassin is a highlight.",
         },
         mention: {
             label: "Honourable mention",
-            value: "Foundation trilogy — Isaac Asimov",
+            value: "Foundation trilogy - Isaac Asimov",
         },
         current: {
             label: "Currently reading",
@@ -29,10 +29,10 @@ const T = {
         },
         fantasyTitle: "Why fantasy?",
         fantasy:
-            "Fantasy lets stories breathe in ways realism often can't: political intrigue over centuries, magic systems with real internal logic, characters shaped by ordeals that feel both alien and deeply human. The best of the genre is a mirror held at an angle, showing truth more clearly because it isn't quite our world.",
+            "Fantasy gives stories room that realism doesn't — centuries-long politics, magic with actual rules, characters put through things that feel strange and human at the same time. Personally I appreciate that mix of simple and complex.",
         recTitle: "Community recommendations",
         recIntro:
-            "Read something you loved and want to share? Drop it below, the most voted titles rise to the top. Any genre welcome, English or French preferred. An unsubtle way to find new reads, so add anything you enjoyed. No moderation in place, please stay respectful. I trust the internet.",
+            "Read something you loved and want to share? Drop it below, the most voted titles rise to the top. Any genre welcome, English or French preferred. An unsubtle way to find new reads, so add anything you enjoyed.",
         recEmpty: "No recommendations yet — be the first!",
         votes: (n: number) => (n === 1 ? "1 vote" : `${n} votes`),
         formTitle: "Recommend a book",
@@ -68,10 +68,10 @@ const T = {
         },
         fantasyTitle: "Pourquoi la fantaisie ?",
         fantasy:
-            "La fantaisie laisse respirer les histoires d'une façon que le réalisme permet rarement : des intrigues politiques sur des siècles, des systèmes de magie à la logique rigoureuse, des personnages façonnés par des épreuves à la fois étranges et profondément humaines. La meilleure fantaisie est un miroir tenu à un angle, qui montre la vérité plus clairement précisément parce que ce n'est pas tout à fait notre monde.",
+            "La fantasy donne aux histoires une liberté que le réalisme n'autorise pas vraiment, des siècles de politique, de la magie avec de vraies règles, des personnages mis à l'épreuve de façons à la fois étranges et très humaines. Et personnellement j'apprecie cette approche a la fois simple et complexe.",
         recTitle: "Recommandations de la communauté",
         recIntro:
-            "Vous avez lu quelque chose d'excellent et vous voulez le partager ? Déposez-le ci-dessous, les titres les plus votés remontent en haut. Tous les genres bienvenus, anglais ou français de préférence. Une façon peu subtile de trouver de nouvelles lectures. Aucune modération, merci de rester respectueux. Je fais confiance à internet.",
+            "Vous avez lu quelque chose d'excellent et vous voulez le partager ? Déposez-le ci-dessous, les titres les plus votés remontent en haut. Tous les genres bienvenus, anglais ou français de préférence. Une façon peu subtile de trouver de nouvelles lectures.",
         recEmpty: "Pas encore de recommandations — soyez le premier !",
         votes: (n: number) => (n === 1 ? "1 vote" : `${n} votes`),
         formTitle: "Recommander un livre",
@@ -341,7 +341,15 @@ export default function Reading() {
                         onChange={(e) => setBookTitle(e.target.value)}
                     />
                     {bookTitle.length > 0 && (
-                        <div style={{ fontSize: 11, color: "#555", textAlign: "right", marginTop: -8, marginBottom: 8 }}>
+                        <div
+                            style={{
+                                fontSize: 11,
+                                color: "#555",
+                                textAlign: "right",
+                                marginTop: -8,
+                                marginBottom: 8,
+                            }}
+                        >
                             {100 - bookTitle.length} remaining
                         </div>
                     )}
@@ -353,7 +361,15 @@ export default function Reading() {
                         onChange={(e) => setAuthor(e.target.value)}
                     />
                     {author.length > 0 && (
-                        <div style={{ fontSize: 11, color: "#555", textAlign: "right", marginTop: -8, marginBottom: 8 }}>
+                        <div
+                            style={{
+                                fontSize: 11,
+                                color: "#555",
+                                textAlign: "right",
+                                marginTop: -8,
+                                marginBottom: 8,
+                            }}
+                        >
                             {80 - author.length} remaining
                         </div>
                     )}

@@ -20,6 +20,7 @@ import {
     MANA_PICKUP_LIFETIME,
     MANA_PICKUP_AMOUNT,
     MANA_PICKUP_RADIUS,
+    GAME_WORLD_BOUNDS,
     ENEMY_DEFS,
 } from "./constants";
 
@@ -193,7 +194,10 @@ export function useGame(
             const geo   = new THREE.SphereGeometry(0.55, 10, 10);
             const mat   = new THREE.MeshBasicMaterial({ color: 0x06d6a0 });
             const mesh  = new THREE.Mesh(geo, mat);
-            mesh.position.set(px + Math.cos(angle) * dist, 1, pz + Math.sin(angle) * dist);
+            const B = GAME_WORLD_BOUNDS;
+            const spx = Math.max(-B, Math.min(B, px + Math.cos(angle) * dist));
+            const spz = Math.max(-B, Math.min(B, pz + Math.sin(angle) * dist));
+            mesh.position.set(spx, 1, spz);
             manaPickupsRef.current.push({ id: pid, mesh, born: now });
             engine.addObject({ id: pid, mesh } as SceneObject);
         }

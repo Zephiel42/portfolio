@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import ThreeEngine, {
     ThreeEngineHandle,
@@ -449,6 +449,30 @@ export default function Home() {
         },
         [game.fireProjectile],
     );
+
+    // -------------------------------------------------------------------------
+    // Keyboard → jump (arrows + ZQSD/WASD)
+    // -------------------------------------------------------------------------
+    useEffect(() => {
+        const STEP = 8;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+            const mv = movableRef.current;
+            if (!mv) return;
+            let dx = 0, dz = 0;
+            switch (e.key) {
+                case "ArrowUp":    case "z": case "Z": case "w": case "W": dz = -STEP; break;
+                case "ArrowDown":  case "s": case "S":                      dz =  STEP; break;
+                case "ArrowLeft":  case "q": case "Q": case "a": case "A": dx = -STEP; break;
+                case "ArrowRight": case "d": case "D":                      dx =  STEP; break;
+                default: return;
+            }
+            e.preventDefault();
+            handleGroundClick(new THREE.Vector3(mv.mesh.position.x + dx, 0, mv.mesh.position.z + dz));
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [handleGroundClick]);
 
     // -------------------------------------------------------------------------
     // Gizmo face click → switch scene with iris transition

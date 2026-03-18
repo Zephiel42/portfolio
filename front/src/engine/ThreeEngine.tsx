@@ -10,6 +10,7 @@ import {
     createInnerGround,
     createFaceLights,
     createBoundary,
+    FACE_LIGHTS_ENABLED,
 } from "./sceneSetup";
 
 export type { SceneObject, ThreeEngineHandle };
@@ -184,6 +185,7 @@ export default function ThreeEngine({
                 camera.position.set(0, 20, 0);
             },
             setFaceLit: (face, lit) => {
+                if (!FACE_LIGHTS_ENABLED) return;
                 const light = faceLights.get(face);
                 if (light) light.intensity = lit ? 55 : 0;
             },
