@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Install dependencies first (better layer caching)
 COPY package.json package-lock.json* ./
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy source and build
 COPY . .
@@ -25,7 +25,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/app.conf
 
 # Copy the build output from Stage 1
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 3000
 

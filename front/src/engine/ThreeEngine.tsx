@@ -117,7 +117,10 @@ export default function ThreeEngine({
                 // Right-click: raycast ground and call onRightClick
                 if (drag.button === 2) {
                     const gp = new THREE.Vector3();
-                    if (ray.ray.intersectPlane(GROUND_PLANE, gp) && onRightClick)
+                    if (
+                        ray.ray.intersectPlane(GROUND_PLANE, gp) &&
+                        onRightClick
+                    )
                         onRightClick(gp);
                     drag.active = false;
                     return;
@@ -156,6 +159,7 @@ export default function ThreeEngine({
             camera.updateProjectionMatrix();
             renderer.setSize(mount.clientWidth, mount.clientHeight);
         };
+        onResize();
 
         const onContextMenu = (e: Event) => e.preventDefault();
 
