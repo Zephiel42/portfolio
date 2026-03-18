@@ -93,6 +93,7 @@ const S = {
         borderRadius: 10,
         marginBottom: 14,
         textDecoration: "none",
+        color: "#ddd",
         transition: "filter 0.15s",
     },
     icon: {
