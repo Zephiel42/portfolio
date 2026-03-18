@@ -69,6 +69,7 @@ export default function Home() {
     const movableBaseYRef = useRef<number>(1);
     const jumpRef = useRef<JumpState | null>(null);
     const pendingDestRef = useRef<THREE.Vector3 | null>(null);
+    const pendingInteractRef = useRef<string | null>(null);
     // non-movable objects (for obstruction)
     const nonMovablesRef = useRef<{ mesh: THREE.Mesh; pos: THREE.Vector2 }[]>(
         [],
@@ -84,6 +85,28 @@ export default function Home() {
     const { t } = useLang();
     const tRef = useRef(t);
     tRef.current = t; // always current without adding t to every dep array
+
+    // Stable ref for interaction logic — re-assigned each render so always captures fresh values
+    const tryInteractRef = useRef<(sceneId: string) => void>(() => {});
+    tryInteractRef.current = (sceneId: string) => {
+        const entry = meshMapRef.current.get(sceneId);
+        const movable = movableRef.current;
+        if (!entry || entry.movable || !movable) return;
+        const mx = movable.mesh.position.x, mz = movable.mesh.position.z;
+        const dist = Math.sqrt((entry.mesh.position.x - mx) ** 2 + (entry.mesh.position.z - mz) ** 2);
+        if (dist <= INTERACT_RANGE) {
+            const mat = entry.mesh.material as THREE.MeshStandardMaterial;
+            const orig = mat.emissiveIntensity;
+            mat.emissive.set(0xffffff);
+            mat.emissiveIntensity = 0.5;
+            setTimeout(() => { mat.emissiveIntensity = orig; mat.emissive.set(0x000000); }, 400);
+            if (entry.label === "Start Game") { game.startGame(); return; }
+            if (entry.path) { setPanel({ label: entry.label, path: entry.path }); }
+            else { showToast(`${tRef.current.ui.interactedWith} ${entry.label}`); }
+        } else {
+            showToast(`${tRef.current.ui.tooFar} (${dist.toFixed(1)} u)`);
+        }
+    };
     const [panel, setPanel] = useState<{ label: string; path: string } | null>(
         null,
     );
@@ -121,6 +144,11 @@ export default function Home() {
                 spawnDust(new THREE.Vector3(jump.to.x, 0, jump.to.z));
                 const landed = jump;
                 jumpRef.current = null;
+                const pendingInteract = pendingInteractRef.current;
+                if (pendingInteract) {
+                    pendingInteractRef.current = null;
+                    tryInteractRef.current(pendingInteract);
+                }
                 fetch(`/api/objects/${landed.targetId}/position`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
@@ -237,6 +265,7 @@ export default function Home() {
 
             jumpRef.current = null;
             pendingDestRef.current = null;
+            pendingInteractRef.current = null;
             loadedIdsRef.current.forEach((id) => engine.removeObject(id));
             loadedIdsRef.current = [];
             meshMapRef.current = new Map();
@@ -400,44 +429,25 @@ export default function Home() {
         (sceneId: string) => {
             const entry = meshMapRef.current.get(sceneId);
             const movable = movableRef.current;
-            if (!entry || entry.movable || !movable) return; // ignore self-clicks
+            if (!entry || entry.movable || !movable) return;
 
-            const mx = movable.mesh.position.x;
-            const mz = movable.mesh.position.z;
-            const dist = Math.sqrt(
-                (entry.mesh.position.x - mx) ** 2 +
-                    (entry.mesh.position.z - mz) ** 2,
-            );
+            const mx = movable.mesh.position.x, mz = movable.mesh.position.z;
+            const dist = Math.sqrt((entry.mesh.position.x - mx) ** 2 + (entry.mesh.position.z - mz) ** 2);
 
             if (dist <= INTERACT_RANGE) {
-                // Visual: brief emissive flash
-                const mat = entry.mesh.material as THREE.MeshStandardMaterial;
-                const orig = mat.emissiveIntensity;
-                mat.emissive.set(0xffffff);
-                mat.emissiveIntensity = 0.5;
-                setTimeout(() => {
-                    mat.emissiveIntensity = orig;
-                    mat.emissive.set(0x000000);
-                }, 400);
-
-                // Mini-game trigger
-                if (entry.label === "Start Game") {
-                    game.startGame();
-                    return;
-                }
-
-                if (entry.path) {
-                    setPanel({ label: entry.label, path: entry.path });
-                } else {
-                    showToast(
-                        `${tRef.current.ui.interactedWith} ${entry.label}`,
-                    );
-                }
+                tryInteractRef.current(sceneId);
             } else {
-                showToast(`${tRef.current.ui.tooFar} (${dist.toFixed(1)} u)`);
+                // Jump toward the object; retry interaction on landing
+                const dx = entry.mesh.position.x - mx;
+                const dz = entry.mesh.position.z - mz;
+                const len = Math.sqrt(dx * dx + dz * dz);
+                const landX = entry.mesh.position.x - (dx / len) * (INTERACT_RANGE * 0.8);
+                const landZ = entry.mesh.position.z - (dz / len) * (INTERACT_RANGE * 0.8);
+                pendingInteractRef.current = sceneId;
+                handleGroundClick(new THREE.Vector3(landX, 0, landZ));
             }
         },
-        [showToast, game.startGame],
+        [handleGroundClick],
     );
 
     // -------------------------------------------------------------------------
