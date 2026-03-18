@@ -1,8 +1,8 @@
 FROM certbot/certbot:latest
 
-# Create directory for ACME challenge
 RUN mkdir -p /var/www/certbot
-WORKDIR /var/www/certbot
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["sh"]
+ENTRYPOINT ["/entrypoint.sh"]
