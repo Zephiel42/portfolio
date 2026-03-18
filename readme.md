@@ -1,4 +1,4 @@
-# Portfolio — Matys Grangaud
+# Portfolio - Matys Grangaud
 
 Interactive 3D portfolio built around a navigable cube. Each face of the cube is a section of the portfolio; clicking an object on the scene opens the corresponding page.
 
@@ -24,26 +24,26 @@ Networks:
   internal — core, database  (no external routing)
 ```
 
-| Service    | Role                          |
-|------------|-------------------------------|
-| `nginx`    | Reverse proxy + TLS           |
-| `front`    | React SPA (Three.js scene)    |
-| `core`     | FastAPI REST API              |
-| `database` | PostgreSQL                    |
-| `anubis`   | PoW bot mitigation            |
+| Service    | Role                       |
+| ---------- | -------------------------- |
+| `nginx`    | Reverse proxy + TLS        |
+| `front`    | React SPA (Three.js scene) |
+| `core`     | FastAPI REST API           |
+| `database` | PostgreSQL                 |
+| `anubis`   | PoW bot mitigation         |
 
 ---
 
 ## Cube faces
 
-| Face     | Content          |
-|----------|------------------|
-| Front    | Profile / About  |
-| Left     | Experience       |
-| Top      | Education        |
-| Bottom   | Skills           |
-| Right    | Projects         |
-| Back     | Mini Game        |
+| Face   | Content         |
+| ------ | --------------- |
+| Front  | Profile / About |
+| Left   | Experience      |
+| Top    | Education       |
+| Bottom | Skills          |
+| Right  | Projects        |
+| Back   | Mini Game       |
 
 The scene also has a **Reading** object that opens a community book-recommendation page.
 
@@ -110,13 +110,13 @@ docker compose down -v
 
 All endpoints are under `/api/`. Read endpoints are public. Write endpoints require an `X-Admin-Key` header matching `ADMIN_API_KEY` from your `.env`.
 
-| Method   | Path                              | Auth     | Description                        |
-|----------|-----------------------------------|----------|------------------------------------|
-| GET      | `/api/objects?face=<face>`        | —        | Scene objects for a cube face      |
-| PATCH    | `/api/objects/{id}/position`      | Admin    | Move a scene object                |
-| GET      | `/api/books`                      | —        | Book recommendations (top 20)      |
-| POST     | `/api/books`                      | —        | Recommend a book (5 req/min/IP)    |
-| GET      | `/health`                         | —        | Health check                       |
+| Method | Path                         | Auth  | Description                     |
+| ------ | ---------------------------- | ----- | ------------------------------- |
+| GET    | `/api/objects?face=<face>`   | —     | Scene objects for a cube face   |
+| PATCH  | `/api/objects/{id}/position` | Admin | Move a scene object             |
+| GET    | `/api/books`                 | —     | Book recommendations (top 20)   |
+| POST   | `/api/books`                 | —     | Recommend a book (5 req/min/IP) |
+| GET    | `/health`                    | —     | Health check                    |
 
 Example admin call:
 
