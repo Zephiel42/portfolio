@@ -17,10 +17,10 @@ const T = {
         ],
         languages: "Languages",
         langList: [
-            { flag: "🇫🇷", label: "French", level: "Native" },
-            { flag: "🇬🇧", label: "English", level: "Bilingual · TOEIC 980" },
-            { flag: "🇯🇵", label: "Japanese", level: "A2" },
-            { flag: "🇩🇪", label: "German", level: "A2" },
+            { fi: "fr", label: "French", level: "Native" },
+            { fi: "gb", label: "English", level: "Bilingual · TOEIC 980" },
+            { fi: "jp", label: "Japanese", level: "A2" },
+            { fi: "de", label: "German", level: "A2" },
         ],
         hint: "← Close panel to return to the 3D scene.",
     },
@@ -40,10 +40,10 @@ const T = {
         ],
         languages: "Langues",
         langList: [
-            { flag: "🇫🇷", label: "Français", level: "Natif" },
-            { flag: "🇬🇧", label: "Anglais", level: "Bilingue · TOEIC 980" },
-            { flag: "🇯🇵", label: "Japonais", level: "A2" },
-            { flag: "🇩🇪", label: "Allemand", level: "A2" },
+            { fi: "fr", label: "Français", level: "Natif" },
+            { fi: "gb", label: "Anglais", level: "Bilingue · TOEIC 980" },
+            { fi: "jp", label: "Japonais", level: "A2" },
+            { fi: "de", label: "Allemand", level: "A2" },
         ],
         hint: "← Fermer le panneau pour revenir à la scène 3D.",
     },
@@ -171,7 +171,7 @@ export default function About() {
             <h2 style={S.h2}>{t.languages}</h2>
             {t.langList.map((l) => (
                 <div key={l.label} style={S.langRow}>
-                    <span style={S.flag}>{l.flag}</span>
+                    <span className={`fi fi-${l.fi}`} style={{ fontSize: 16, borderRadius: 2 }} />
                     <span style={S.langName}>{l.label}</span>
                     <span style={S.langLvl}>{l.level}</span>
                 </div>

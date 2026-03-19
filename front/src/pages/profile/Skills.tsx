@@ -48,10 +48,10 @@ const SKILL_CARDS = [
 ];
 
 const LANGUAGES = [
-    { flag: "🇫🇷", name: "Français",  en: "Native",             fr: "Natif"              },
-    { flag: "🇬🇧", name: "English",   en: "Bilingual · TOEIC 980", fr: "Bilingue · TOEIC 980" },
-    { flag: "🇯🇵", name: "日本語",    en: "A2",                  fr: "A2"                 },
-    { flag: "🇩🇪", name: "Deutsch",   en: "A2",                  fr: "A2"                 },
+    { fi: "fr", name: "Français",  en: "Native",             fr: "Natif"              },
+    { fi: "gb", name: "English",   en: "Bilingual · TOEIC 980", fr: "Bilingue · TOEIC 980" },
+    { fi: "jp", name: "日本語",    en: "A2",                  fr: "A2"                 },
+    { fi: "de", name: "Deutsch",   en: "A2",                  fr: "A2"                 },
 ];
 
 // ── Styles ────────────────────────────────────────────────────────────────────
@@ -143,7 +143,7 @@ export default function Skills() {
             <div style={S.langGrid}>
                 {LANGUAGES.map(l => (
                     <div key={l.name} style={S.langCard}>
-                        <span style={S.langFlag}>{l.flag}</span>
+                        <span className={`fi fi-${l.fi}`} style={{ fontSize: 20, borderRadius: 2 }} />
                         <div>
                             <div style={S.langName}>{l.name}</div>
                             <div style={S.langLevel}>{isEn ? l.en : l.fr}</div>

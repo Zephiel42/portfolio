@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useLang } from "../context/LangContext";
 import { Lang } from "../i18n/translations";
 
-const LANGS: { code: Lang; flag: string; label: string }[] = [
-    { code: "fr", flag: "🇫🇷", label: "Français" },
-    { code: "en", flag: "🇬🇧", label: "English"  },
+const LANGS: { code: Lang; fi: string; label: string }[] = [
+    { code: "fr", fi: "fr", label: "Français" },
+    { code: "en", fi: "gb", label: "English"  },
 ];
 
 const BTN: React.CSSProperties = {
@@ -19,6 +19,7 @@ export default function LangButton() {
     const { lang, setLang } = useLang();
     const [open, setOpen]   = useState(false);
     const cur = LANGS.find(l => l.code === lang) ?? LANGS[0];
+    const Flag = ({ fi }: { fi: string }) => <span className={`fi fi-${fi}`} style={{ fontSize: 18, borderRadius: 2 }} />;
 
     return (
         <div style={{ position: "relative" }}>
@@ -27,7 +28,7 @@ export default function LangButton() {
                 title="Language"
                 onMouseDown={e => { e.stopPropagation(); setOpen(o => !o); }}
             >
-                {cur.flag}
+                <Flag fi={cur.fi} />
             </button>
 
             {open && (
@@ -47,7 +48,7 @@ export default function LangButton() {
                                 color: "#ddd", fontSize: 14, fontFamily: "sans-serif",
                             }}
                         >
-                            <span style={{ fontSize: 18 }}>{l.flag}</span> {l.label}
+                            <Flag fi={l.fi} /> {l.label}
                         </button>
                     ))}
                 </div>
