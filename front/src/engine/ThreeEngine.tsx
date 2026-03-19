@@ -163,12 +163,76 @@ export default function ThreeEngine({
 
         const onContextMenu = (e: Event) => e.preventDefault();
 
+        // --- Touch input ---
+        let lastPinchDist = 0;
+
+        const onTouchStart = (e: TouchEvent) => {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                const t = e.touches[0];
+                drag.active = true;
+                drag.lastX = drag.startX = t.clientX;
+                drag.lastY = drag.startY = t.clientY;
+                drag.moved = false;
+                drag.button = 0;
+            } else if (e.touches.length === 2) {
+                drag.active = false;
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                lastPinchDist = Math.sqrt(dx * dx + dy * dy);
+            }
+        };
+
+        const onTouchMove = (e: TouchEvent) => {
+            e.preventDefault();
+            if (e.touches.length === 1 && drag.active) {
+                const t = e.touches[0];
+                camera.position.x = clamp(camera.position.x - (t.clientX - drag.lastX) * 0.05);
+                camera.position.z = clamp(camera.position.z - (t.clientY - drag.lastY) * 0.05);
+                const dx = t.clientX - drag.startX, dy = t.clientY - drag.startY;
+                if (dx * dx + dy * dy > 16) drag.moved = true;
+                drag.lastX = t.clientX;
+                drag.lastY = t.clientY;
+            } else if (e.touches.length === 2) {
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                camera.position.y = Math.max(2, Math.min(100, camera.position.y - (dist - lastPinchDist) * 0.1));
+                lastPinchDist = dist;
+            }
+        };
+
+        const onTouchEnd = (e: TouchEvent) => {
+            if (e.touches.length > 0) return;
+            if (drag.active && !drag.moved) {
+                const rect = mount.getBoundingClientRect();
+                const t = e.changedTouches[0];
+                const ndc = new THREE.Vector2(
+                    ((t.clientX - rect.left) / mount.clientWidth) * 2 - 1,
+                    ((t.clientY - rect.top) / mount.clientHeight) * -2 + 1,
+                );
+                const ray = new THREE.Raycaster();
+                ray.setFromCamera(ndc, camera);
+                const hits = ray.intersectObjects(Array.from(objects.values()).map(o => o.mesh), true);
+                if (hits.length > 0) {
+                    const id = findSceneId(hits[0].object);
+                    if (id && onMeshClick) { onMeshClick(id, hits[0].point); drag.active = false; return; }
+                }
+                const gp = new THREE.Vector3();
+                if (ray.ray.intersectPlane(GROUND_PLANE, gp) && onGroundClick) onGroundClick(gp);
+            }
+            drag.active = false;
+        };
+
         mount.addEventListener("mousedown", onMouseDown);
         window.addEventListener("mousemove", onMouseMove);
         window.addEventListener("mouseup", onMouseUp);
         mount.addEventListener("wheel", onWheel, { passive: false });
         window.addEventListener("resize", onResize);
         mount.addEventListener("contextmenu", onContextMenu);
+        mount.addEventListener("touchstart", onTouchStart, { passive: false });
+        mount.addEventListener("touchmove", onTouchMove, { passive: false });
+        mount.addEventListener("touchend", onTouchEnd);
 
         // --- Handle ---
         onReady?.({
@@ -209,6 +273,9 @@ export default function ThreeEngine({
             mount.removeEventListener("wheel", onWheel);
             window.removeEventListener("resize", onResize);
             mount.removeEventListener("contextmenu", onContextMenu);
+            mount.removeEventListener("touchstart", onTouchStart);
+            mount.removeEventListener("touchmove", onTouchMove);
+            mount.removeEventListener("touchend", onTouchEnd);
             renderer.dispose();
             if (mount.contains(renderer.domElement))
                 mount.removeChild(renderer.domElement);

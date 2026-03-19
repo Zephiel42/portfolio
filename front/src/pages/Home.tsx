@@ -646,9 +646,7 @@ export default function Home() {
                     zIndex: 5,
                 }}
             >
-                {activeFace === "back"
-                    ? "🖱 Click ground to jump  |  Click Start Game to play  |  Walk into gold boxes to pick cards"
-                    : "🖱 Drag to pan  |  Scroll to zoom  |  Click ground to jump  |  Walk into gold boxes to get cards"}
+                {activeFace === "back" ? t.ui.hintGame : t.ui.hintExplore}
             </div>
 
             {faceOverlay && (
