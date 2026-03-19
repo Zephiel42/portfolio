@@ -621,6 +621,8 @@ export default function Home() {
 
             {/* Name — top right */}
             <div
+                onMouseDown={e => e.stopPropagation()}
+                onClick={() => setPanel({ label: t.ui.quickResume, path: "/quick-resume" })}
                 style={{
                     position: "fixed",
                     top: 20,
@@ -628,7 +630,7 @@ export default function Home() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-end",
-                    pointerEvents: "none",
+                    pointerEvents: "auto",
                     userSelect: "none",
                     zIndex: 5,
                     background: "rgba(8,8,20,0.60)",
@@ -636,6 +638,7 @@ export default function Home() {
                     borderRadius: 10,
                     padding: "10px 14px",
                     border: "1px solid rgba(68,136,255,0.15)",
+                    cursor: "pointer",
                 }}
             >
                 <span

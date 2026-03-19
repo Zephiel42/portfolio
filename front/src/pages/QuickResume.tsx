@@ -7,7 +7,9 @@ const S = {
         background: "#0d0d1a", color: "#ddd", minHeight: "100vh",
         padding: "32px 36px", fontFamily: "sans-serif", boxSizing: "border-box" as const,
     },
-    header: { marginBottom: 24 },
+    header: { marginBottom: 24, display: "flex", gap: 20, alignItems: "flex-start" },
+    photo: { width: 80, height: 80, borderRadius: 8, objectFit: "cover" as const, flexShrink: 0, border: "2px solid rgba(68,136,255,0.3)" },
+    headerInfo: { flex: 1 },
     name: { color: "#fff", fontSize: 26, fontWeight: 700, margin: 0, lineHeight: 1.2 },
     role: { color: A, fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" as const, marginTop: 4 },
     contacts: { display: "flex", gap: 20, marginTop: 10, flexWrap: "wrap" as const },
@@ -150,14 +152,17 @@ export default function QuickResume() {
         <div style={S.page}>
             {/* Header */}
             <div style={S.header}>
-                <h1 style={S.name}>Matys Grangaud</h1>
-                <div style={S.role}>{t.role}</div>
-                <div style={S.contacts}>
-                    {t.contacts.map(c => (
-                        <a key={c.href} href={c.href} target="_blank" rel="noopener noreferrer" style={S.contact}>
-                            {c.label}
-                        </a>
-                    ))}
+                <img src="/profil/profilPick.jpg" alt="Matys Grangaud" style={S.photo} />
+                <div style={S.headerInfo}>
+                    <h1 style={S.name}>Matys Grangaud</h1>
+                    <div style={S.role}>{t.role}</div>
+                    <div style={S.contacts}>
+                        {t.contacts.map(c => (
+                            <a key={c.href} href={c.href} target="_blank" rel="noopener noreferrer" style={S.contact}>
+                                {c.label}
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
 
