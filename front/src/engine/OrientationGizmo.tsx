@@ -33,8 +33,8 @@ const TARGET_QUATS: Record<GizmoFace, THREE.Quaternion> = {
     back:   new THREE.Quaternion().setFromAxisAngle(Y,  Math.PI),
     right:  new THREE.Quaternion().setFromAxisAngle(Y, -Math.PI / 2),
     left:   new THREE.Quaternion().setFromAxisAngle(Y,  Math.PI / 2),
-    top:    new THREE.Quaternion().setFromAxisAngle(X, -Math.PI / 2),
-    bottom: new THREE.Quaternion().setFromAxisAngle(X,  Math.PI / 2),
+    top:    new THREE.Quaternion().setFromAxisAngle(X,  Math.PI / 2),
+    bottom: new THREE.Quaternion().setFromAxisAngle(X, -Math.PI / 2),
 };
 
 // Direction the gizmo light comes from (matches gizmo's DirectionalLight position)
