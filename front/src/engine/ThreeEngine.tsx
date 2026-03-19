@@ -196,6 +196,9 @@ export default function ThreeEngine({
             setFrameCallback: (fn) => {
                 frameCallbackRef.current = fn;
             },
+            zoom: (delta) => {
+                camera.position.y = Math.max(2, Math.min(100, camera.position.y + delta));
+            },
         });
 
         return () => {

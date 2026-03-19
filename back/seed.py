@@ -39,6 +39,8 @@ FACE_OBJECTS: dict[str, list[dict]] = {
         dict(label="Contact",   geometry="box", color="#7209b7", x=-6, y=1, z=-4,  movable=False, path="/contact"),
         dict(label="Lectures",  geometry="box", color="#ffd166", x= 6, y=1, z= 14, movable=False, path="/reading"),
         dict(label="IA",        geometry="box", color="#a855f7", x= 6, y=1, z=-4,  movable=False, path="/ai-views", subtitle="views"),
+        dict(label="Hobbies",   geometry="box", color="#f77f00", x=-14, y=1, z= 4, movable=False, path="/hobbies",  subtitle="loisirs"),
+        dict(label="Sports",    geometry="box", color="#3a86ff", x= 20, y=1, z= 4, movable=False, path="/sports"),
     ],
     "back": [
         dict(label="Red Cube",   geometry="box", color="#e63946", x=0, y=1, z=0, movable=True),
@@ -244,4 +246,26 @@ def run(db: Session) -> None:
                 "(label, geometry, color, x, y, z, rx, ry, rz, movable, face, path, subtitle) "
                 "VALUES ('Portfolio','box','#4488ff',8,1,-6,0,0,0,false,'right','/projects/portfolio','2026')"
             ))
+        conn.commit()
+
+    # Add Hobbies and Sports cubes if missing
+    with engine.connect() as conn:
+        if not conn.execute(sa_text(
+            "SELECT 1 FROM scene_objects WHERE face='front' AND label='Hobbies' LIMIT 1"
+        )).fetchone():
+            conn.execute(sa_text(
+                "INSERT INTO scene_objects "
+                "(label, geometry, color, x, y, z, rx, ry, rz, movable, face, path, subtitle) "
+                "VALUES ('Hobbies','box','#f77f00',-14,1,4,0,0,0,false,'front','/hobbies','loisirs')"
+            ))
+        if not conn.execute(sa_text(
+            "SELECT 1 FROM scene_objects WHERE face='front' AND label='Sports' LIMIT 1"
+        )).fetchone():
+            conn.execute(sa_text(
+                "INSERT INTO scene_objects "
+                "(label, geometry, color, x, y, z, rx, ry, rz, movable, face, path, subtitle) "
+                "VALUES ('Sports','box','#3a86ff',20,1,4,0,0,0,false,'front','/sports',NULL)"
+            ))
+        else:
+            conn.execute(sa_text("UPDATE scene_objects SET x=20 WHERE face='front' AND label='Sports'"))
         conn.commit()

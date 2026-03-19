@@ -149,7 +149,7 @@ export function makeCrossMarker(pos: THREE.Vector3): THREE.Group {
         color: 0xff2222,
         side: THREE.DoubleSide,
     });
-    const geo = new THREE.BoxGeometry(3, 0.18, 0.4);
+    const geo = new THREE.BoxGeometry(1.4, 0.14, 0.22);
     const bar1 = new THREE.Mesh(geo, mat);
     bar1.rotation.y = Math.PI / 4;
     const bar2 = new THREE.Mesh(geo, mat);

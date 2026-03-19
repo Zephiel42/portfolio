@@ -5,6 +5,8 @@ import About    from './pages/profile/About';
 import Contact   from './pages/profile/Contact';
 import Reading   from './pages/profile/Reading';
 import AIViews  from './pages/profile/AIViews';
+import Hobbies  from './pages/profile/Hobbies';
+import Sports   from './pages/profile/Sports';
 import Skills     from './pages/profile/Skills';
 import SoftSkills from './pages/profile/SoftSkills';
 import Projects  from './pages/projects/Projects';
@@ -41,6 +43,8 @@ export default function App() {
         <Route path="/contact"             element={<Contact />} />
         <Route path="/reading"             element={<Reading />} />
         <Route path="/ai-views"            element={<AIViews />} />
+        <Route path="/hobbies"             element={<Hobbies />} />
+        <Route path="/sports"              element={<Sports />} />
         <Route path="/skills"              element={<Skills />} />
         <Route path="/soft-skills"         element={<SoftSkills />} />
         <Route path="/info"                element={<Info />} />

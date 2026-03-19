@@ -72,7 +72,7 @@ const T = {
         recTitle: "Recommandations de la communauté",
         recIntro:
             "Vous avez lu quelque chose d'excellent et vous voulez le partager ? Déposez-le ci-dessous, les titres les plus votés remontent en haut. Tous les genres bienvenus, anglais ou français de préférence. Une façon peu subtile de trouver de nouvelles lectures.",
-        recEmpty: "Pas encore de recommandations — soyez le premier !",
+        recEmpty: "Pas encore de recommandations.",
         votes: (n: number) => (n === 1 ? "1 vote" : `${n} votes`),
         formTitle: "Recommander un livre",
         formBook: "Titre *",
@@ -305,6 +305,20 @@ export default function Reading() {
                         </span>
                     </div>
                 ))}
+
+                {/* Book covers */}
+                <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
+                    <img
+                        src="/profil/books/royal assassin.jpg"
+                        alt="Royal Assassin"
+                        style={{ height: 160, borderRadius: 6, border: "1px solid rgba(255,255,255,0.1)", objectFit: "cover" }}
+                    />
+                    <img
+                        src="/profil/books/Fundamental od devOps and Software Delivery.png"
+                        alt="Fundamentals of DevOps and Software Delivery"
+                        style={{ height: 160, borderRadius: 6, border: "1px solid rgba(255,255,255,0.1)", objectFit: "cover" }}
+                    />
+                </div>
             </div>
 
             <hr style={S.hr} />

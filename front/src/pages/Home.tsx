@@ -304,9 +304,12 @@ export default function Home() {
                                 const labelId = `${sceneId}-label`;
                                 const displayName =
                                     tRef.current.labels[obj.label] ?? obj.label;
+                                const displaySub = obj.subtitle
+                                    ? (tRef.current.subtitles[obj.subtitle] ?? obj.subtitle)
+                                    : "";
                                 const sprite = makeLabel(
                                     displayName,
-                                    obj.subtitle ?? "",
+                                    displaySub,
                                 );
                                 sprite.position.set(obj.x, obj.y + 3, obj.z);
                                 engine.addObject({ id: labelId, mesh: sprite });
@@ -426,9 +429,11 @@ export default function Home() {
     // Mesh click → interact if nearby
     // -------------------------------------------------------------------------
     const handleMeshClick = useCallback(
-        (sceneId: string) => {
+        (sceneId: string, point: THREE.Vector3) => {
             const entry = meshMapRef.current.get(sceneId);
             const movable = movableRef.current;
+            // Unregistered mesh (e.g. mystery box) → jump toward it
+            if (!entry && movable) { handleGroundClick(point); return; }
             if (!entry || entry.movable || !movable) return;
 
             const mx = movable.mesh.position.x, mz = movable.mesh.position.z;
@@ -448,16 +453,6 @@ export default function Home() {
             }
         },
         [handleGroundClick],
-    );
-
-    // -------------------------------------------------------------------------
-    // Right-click → fire projectile toward ground point
-    // -------------------------------------------------------------------------
-    const handleRightClick = useCallback(
-        (point: THREE.Vector3) => {
-            game.fireProjectile(point);
-        },
-        [game.fireProjectile],
     );
 
     // -------------------------------------------------------------------------
@@ -566,7 +561,7 @@ export default function Home() {
                 onReady={handleReady}
                 onGroundClick={handleGroundClick}
                 onMeshClick={handleMeshClick}
-                onRightClick={handleRightClick}
+
                 cameraBounds={25}
                 style={{ width: "100%", height: "100%" }}
             />
@@ -652,8 +647,8 @@ export default function Home() {
                 }}
             >
                 {activeFace === "back"
-                    ? "🖱 Click ground to jump  |  Click Start Game to play  |  Right-click / Space to shoot"
-                    : "🖱 Drag to pan  |  Scroll to zoom  |  Click ground to jump  |  Click nearby object to interact"}
+                    ? "🖱 Click ground to jump  |  Click Start Game to play  |  Walk into gold boxes to pick cards"
+                    : "🖱 Drag to pan  |  Scroll to zoom  |  Click ground to jump  |  Walk into gold boxes to get cards"}
             </div>
 
             {faceOverlay && (
@@ -697,11 +692,14 @@ export default function Home() {
             {activeFace === "back" && (
                 <GameHUD
                     hp={game.gameHp}
-                    mana={game.gameMana}
                     score={game.gameScore}
                     bestScore={game.bestScore}
                     gameOver={game.gameOver}
+                    cardChoice={game.cardChoice}
+                    turretHp={game.turretHp}
+                    activeBuff={game.activeBuff}
                     onRestart={() => game.setGameOver(false)}
+                    onCardPick={game.pickCard}
                 />
             )}
 
@@ -712,6 +710,30 @@ export default function Home() {
                     onClose={() => setPanel(null)}
                 />
             )}
+
+            {/* Zoom buttons — bottom right */}
+            <div style={{
+                position: "fixed", bottom: 16, right: 16,
+                display: "flex", flexDirection: "column", gap: 6, zIndex: 5,
+            }}>
+                {([["＋", -8], ["－", 8]] as [string, number][]).map(([label, delta]) => (
+                    <button
+                        key={label}
+                        onMouseDown={e => e.stopPropagation()}
+                        onClick={() => engineRef.current?.zoom(delta)}
+                        style={{
+                            width: 36, height: 36, borderRadius: 8,
+                            background: "rgba(20,20,50,0.85)",
+                            border: "1px solid rgba(255,255,255,0.12)",
+                            color: "#ccc", fontSize: 20, cursor: "pointer",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                        }}
+                    >
+                        {label}
+                    </button>
+                ))}
+            </div>
 
             {toast && (
                 <div

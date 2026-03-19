@@ -55,6 +55,7 @@ export default function Polytech() {
     const t = T[lang];
     return (
         <div style={S.page}>
+            <img src="/education/plytech.png" alt="Polytech Paris-Saclay" style={{ height: 56, marginBottom: 16, display: "block" }} />
             <div style={S.meta}>{t.meta}</div>
             <h1 style={S.title}>Polytech Paris-Saclay</h1>
             <div style={S.sub}>{t.sub}</div>
@@ -64,10 +65,10 @@ export default function Polytech() {
                 <div style={S.period}>{t.cycle} · {t.y1}</div>
                 <div style={S.label}>{t.d1}</div>
 
-                <div style={S.colTitle}>⚡ {t.hpcTitle}</div>
+                <div style={S.colTitle}>{t.hpcTitle}</div>
                 {t.hpcItems.map(item => <div key={item} style={S.li}>{item}</div>)}
 
-                <div style={S.colTitle}>🧠 {t.dsTitle}</div>
+                <div style={S.colTitle}>{t.dsTitle}</div>
                 {t.dsItems.map(item => <div key={item} style={S.li}>{item}</div>)}
             </div>
 

@@ -14,6 +14,7 @@ export interface ThreeEngineHandle {
     resetCamera:      () => void;
     setFaceLit:       (face: GizmoFace, lit: boolean) => void;
     setFrameCallback: (fn: (() => void) | null) => void;
+    zoom:             (delta: number) => void;
 }
 
 export interface ThreeEngineProps {
