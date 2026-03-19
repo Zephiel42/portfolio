@@ -92,7 +92,7 @@ export const translations: Record<Lang, Translations> = {
         faces: {
             front:  "Profil",
             left:   "Expérience",
-            top:    "Éducation",
+            top:    "Formation",
             bottom: "Compétences",
             right:  "Projets",
             back:   "Mini Jeu",

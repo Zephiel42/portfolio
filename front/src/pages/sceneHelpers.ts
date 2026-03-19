@@ -146,8 +146,14 @@ export function buildObject(obj: ApiObject): Promise<THREE.Object3D> {
         return Promise.resolve(group);
     }
     const mesh = buildPrimitive(obj);
-    applyTransform(mesh, obj);
-    return Promise.resolve(mesh);
+    const edges = new THREE.LineSegments(
+        new THREE.EdgesGeometry(mesh.geometry),
+        new THREE.LineBasicMaterial({ color: 0x000000 }),
+    );
+    const group = new THREE.Group();
+    group.add(mesh, edges);
+    applyTransform(group, obj);
+    return Promise.resolve(group);
 }
 
 /** Flat X marker visible from top-down camera */
