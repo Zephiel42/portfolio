@@ -269,3 +269,13 @@ def run(db: Session) -> None:
         else:
             conn.execute(sa_text("UPDATE scene_objects SET x=20 WHERE face='front' AND label='Sports'"))
         conn.commit()
+
+    with engine.connect() as conn:
+        has_skills_on_top = conn.execute(sa_text(
+            "SELECT 1 FROM scene_objects WHERE face='top' AND label='Skills' LIMIT 1"
+        )).fetchone()
+        if has_skills_on_top:
+            conn.execute(sa_text("UPDATE scene_objects SET face='_swap' WHERE face='top'"))
+            conn.execute(sa_text("UPDATE scene_objects SET face='top'   WHERE face='bottom'"))
+            conn.execute(sa_text("UPDATE scene_objects SET face='bottom' WHERE face='_swap'"))
+        conn.commit()

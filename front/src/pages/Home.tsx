@@ -583,7 +583,7 @@ export default function Home() {
                 {([
                     ["front",  "#ff6347", "255,99,71"  ], ["back",   "#ba55d3", "186,85,211" ],
                     ["left",   "#3cb371", "60,179,113" ], ["right",  "#6495ed", "100,149,237"],
-                    ["top",    "#ffd700", "255,215,0"  ], ["bottom", "#4a7a7a", "74,122,122" ],
+                    ["bottom", "#4a7a7a", "74,122,122" ], ["top",    "#ffd700", "255,215,0"  ],
                 ] as [GizmoFace, string, string][]).map(([face, color, rgb]) => (
                     <button
                         key={face}
