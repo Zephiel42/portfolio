@@ -17,7 +17,6 @@ import {
     makeLabel,
 } from "./sceneHelpers";
 import { useGame } from "./game/useGame";
-import WelcomeOverlay from "../components/WelcomeOverlay";
 import { useToast } from "../hooks/useToast";
 import { useDust } from "../hooks/useDust";
 
@@ -825,8 +824,6 @@ export default function Home() {
                     {toast}
                 </div>
             )}
-
-            <WelcomeOverlay />
         </main>
     );
 }
