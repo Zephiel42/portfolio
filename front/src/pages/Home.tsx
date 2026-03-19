@@ -17,6 +17,7 @@ import {
     makeLabel,
 } from "./sceneHelpers";
 import { useGame } from "./game/useGame";
+import WelcomeOverlay from "../components/WelcomeOverlay";
 import { useToast } from "../hooks/useToast";
 import { useDust } from "../hooks/useDust";
 
@@ -314,6 +315,11 @@ export default function Home() {
                                 sprite.position.set(obj.x, obj.y + 3, obj.z);
                                 engine.addObject({ id: labelId, mesh: sprite });
                                 loadedIdsRef.current.push(labelId);
+                                // Clicking the label behaves like clicking the cube
+                                meshMapRef.current.set(labelId, {
+                                    label: obj.label, movable: false,
+                                    apiId: obj.id, mesh, path: obj.path,
+                                });
                                 if (obj.label === "Start Game") {
                                     game.startCubeRef.current = {
                                         sceneId,
@@ -579,6 +585,11 @@ export default function Home() {
                 position: "absolute", top: 16, left: 16 + 180 + 10,
                 display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5,
                 zIndex: 10,
+                background: "rgba(8,8,20,0.60)",
+                backdropFilter: "blur(6px)",
+                borderRadius: 8,
+                padding: 6,
+                border: "1px solid rgba(68,136,255,0.15)",
             }}>
                 {([
                     ["front",  "#ff6347", "255,99,71"  ], ["back",   "#ba55d3", "186,85,211" ],
@@ -590,8 +601,8 @@ export default function Home() {
                         onMouseDown={e => e.stopPropagation()}
                         onClick={() => { gizmoRef.current?.rotateTo(face); handleFaceClick(face); }}
                         style={{
-                            background: `rgba(${rgb},0.12)`,
-                            border: `1px solid rgba(${rgb},0.4)`,
+                            background: `rgba(${rgb},0.20)`,
+                            border: `1px solid rgba(${rgb},0.55)`,
                             color,
                             fontSize: 10,
                             fontFamily: "sans-serif",
@@ -621,6 +632,11 @@ export default function Home() {
                     pointerEvents: "none",
                     userSelect: "none",
                     zIndex: 5,
+                    background: "rgba(8,8,20,0.60)",
+                    backdropFilter: "blur(6px)",
+                    borderRadius: 10,
+                    padding: "10px 14px",
+                    border: "1px solid rgba(68,136,255,0.15)",
                 }}
             >
                 <span
@@ -630,7 +646,6 @@ export default function Home() {
                         fontWeight: 700,
                         fontFamily: "sans-serif",
                         letterSpacing: 2,
-                        textShadow: "0 2px 12px rgba(0,0,0,0.7)",
                     }}
                 >
                     Matys Grangaud
@@ -810,6 +825,8 @@ export default function Home() {
                     {toast}
                 </div>
             )}
+
+            <WelcomeOverlay />
         </main>
     );
 }

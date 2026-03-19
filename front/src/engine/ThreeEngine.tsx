@@ -250,7 +250,7 @@ export default function ThreeEngine({
             },
             getScene: () => scene,
             resetCamera: () => {
-                camera.position.set(0, 20, 0);
+                camera.position.set(0, 30, 0);
             },
             setFaceLit: (face, lit) => {
                 if (!FACE_LIGHTS_ENABLED) return;

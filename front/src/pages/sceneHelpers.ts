@@ -51,29 +51,42 @@ export function applyTransform(model: THREE.Object3D, obj: ApiObject) {
 }
 
 export function makeLabel(name: string, subtitle: string): THREE.Sprite {
-    const W = 512,
-        H = 88;
+    const NAME_FS = 30;
+    const SUB_FS  = 20;
+    const PAD_X   = 36;
+    const PAD_Y   = 14;
+
+    // Measure text to size canvas tightly
+    const tmp = document.createElement("canvas").getContext("2d")!;
+    tmp.font = `bold ${NAME_FS}px sans-serif`;
+    const nameW = tmp.measureText(name).width;
+    tmp.font = `${SUB_FS}px sans-serif`;
+    const subW = subtitle ? tmp.measureText(subtitle).width : 0;
+
+    const W = Math.max(nameW, subW) + PAD_X * 2;
+    const H = subtitle ? NAME_FS + SUB_FS + PAD_Y * 3 : NAME_FS + PAD_Y * 2;
+
     const canvas = document.createElement("canvas");
-    canvas.width = W;
+    canvas.width  = W;
     canvas.height = H;
     const ctx = canvas.getContext("2d")!;
 
     // Rounded background
+    const r = 10;
     ctx.fillStyle = "rgba(8, 8, 24, 0.88)";
     ctx.beginPath();
-    ctx.moveTo(12, 0);
-    ctx.lineTo(W - 12, 0);
-    ctx.quadraticCurveTo(W, 0, W, 12);
-    ctx.lineTo(W, H - 12);
-    ctx.quadraticCurveTo(W, H, W - 12, H);
-    ctx.lineTo(12, H);
-    ctx.quadraticCurveTo(0, H, 0, H - 12);
-    ctx.lineTo(0, 12);
-    ctx.quadraticCurveTo(0, 0, 12, 0);
+    ctx.moveTo(r, 0);
+    ctx.lineTo(W - r, 0);
+    ctx.quadraticCurveTo(W, 0, W, r);
+    ctx.lineTo(W, H - r);
+    ctx.quadraticCurveTo(W, H, W - r, H);
+    ctx.lineTo(r, H);
+    ctx.quadraticCurveTo(0, H, 0, H - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
     ctx.closePath();
     ctx.fill();
 
-    // Border
     ctx.strokeStyle = "rgba(120, 160, 255, 0.35)";
     ctx.lineWidth = 2;
     ctx.stroke();
@@ -81,31 +94,25 @@ export function makeLabel(name: string, subtitle: string): THREE.Sprite {
     // Name
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    let fs = 32;
-    ctx.font = `bold ${fs}px sans-serif`;
-    while (ctx.measureText(name).width > W * 0.88 && fs > 14) {
-        fs -= 1;
-        ctx.font = `bold ${fs}px sans-serif`;
-    }
-    const nameY = subtitle ? H * 0.36 : H * 0.54;
-    ctx.fillText(name, W / 2, nameY);
+    ctx.textBaseline = "top";
+    ctx.font = `bold ${NAME_FS}px sans-serif`;
+    ctx.fillText(name, W / 2, PAD_Y);
 
-    // Subtitle (year / tag)
+    // Subtitle
     if (subtitle) {
         ctx.fillStyle = "rgba(160, 190, 255, 0.65)";
-        ctx.font = "22px sans-serif";
-        ctx.fillText(subtitle, W / 2, H * 0.72);
+        ctx.font = `${SUB_FS}px sans-serif`;
+        ctx.fillText(subtitle, W / 2, PAD_Y + NAME_FS + PAD_Y * 0.5);
     }
 
+    const WORLD_PX = 5.8 / 512;
     const mat = new THREE.SpriteMaterial({
         map: new THREE.CanvasTexture(canvas),
         transparent: true,
         depthTest: false,
     });
     const sprite = new THREE.Sprite(mat);
-    sprite.scale.set(5.8, 5.8 * (H / W), 1);
-    sprite.raycast = () => {};
+    sprite.scale.set(W * WORLD_PX, H * WORLD_PX, 1);
     return sprite;
 }
 
