@@ -11,7 +11,7 @@ const T = {
         sub2: "Opinions",
         body2: [
             "AI is genuinely capable, and ignoring it in technical or creative work puts you at a real disadvantage. The gap between people who use it well and those who don't is growing, and that's backed by enough practical evidence to take seriously.",
-            "That said, using it well requires understanding what it actually does. Models don't truly \"know\" things; they retrieve and generate from statistical patterns. The concept of RAG makes this concrete: the model pulls relevant context and generates from it. Once you understand that mechanism, you prompt differently and you stop treating the output as ground truth.",
+            'That said, using it well requires understanding what it actually does. Models don\'t truly "know" things; they retrieve and generate from statistical patterns. The concept of RAG makes this concrete: the model pulls relevant context and generates from it. Once you understand that mechanism, you prompt differently and you stop treating the output as ground truth.',
             "I saw this firsthand with a classmate who submitted AI-generated code without reading it. There was a security vulnerability in it. The model wasn't the problem: the prompt was vague and there was no review step. The AI produced exactly what it was asked for. The mistake was treating it as a substitute for understanding rather than a complement to it.",
             "The environmental cost is also worth acknowledging. Training large models is energy-intensive, and inference at scale adds up meaningfully. That's not an argument against using AI, but it is an argument for being deliberate: choosing the right model size for the task, avoiding unnecessary calls, and preferring infrastructure that runs on cleaner energy. Engineering tradeoffs like any other.",
             "Something that doesn't get discussed enough: what happens to the information environment when content generation becomes nearly free. Search results are already filling with low-quality generated text, and it's getting harder to find work that's actually authored by someone. Beyond that, the people whose work trained these models, writers, illustrators, musicians, are now competing with output built on their own work at a scale they can't match. These aren't hypothetical concerns. They're already measurable.",
@@ -21,7 +21,7 @@ const T = {
         title: "Mon regard sur l'IA",
         sub1: "Contexte",
         body1: [
-            "J'ai suffisamment travaillé avec l'IA pour avoir un avis ancré dans la pratique. J'ai construit des systèmes autour, intégré ces outils dans des workflows réels, et je les utilise dans mon travail quotidien plutôt que de juste les tester.",
+            "J'ai assez travaillé avec l'IA pour avoir un avis ancré dans la pratique. J'ai construit des systèmes autour, intégré ces outils dans des workflows réels, et je les utilise dans mon travail quotidien plutôt que de juste les tester.",
             "J'ai essayé plusieurs assistants de code et modèles génératifs pour les images et la 3D, suffisamment pour avoir une idée concrète des points forts et des limites de chacun. Ce n'est pas quelque chose sur quoi je m'appuie pour tout, mais c'est un outil que je sais utiliser et, surtout, évaluer.",
         ],
         sub2: "Opinions",
