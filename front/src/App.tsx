@@ -20,7 +20,8 @@ import Visc      from './pages/experience/Visc';
 import Pyralis   from './pages/experience/Pyralis';
 import Polytech  from './pages/education/Polytech';
 import Toeic     from './pages/education/Toeic';
-import Info      from './pages/Info';
+import Info        from './pages/Info';
+import QuickResume from './pages/QuickResume';
 import NotFound  from './pages/NotFound';
 
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
         <Route path="/skills"              element={<Skills />} />
         <Route path="/soft-skills"         element={<SoftSkills />} />
         <Route path="/info"                element={<Info />} />
+        <Route path="/quick-resume"        element={<QuickResume />} />
         <Route path="*"                    element={<NotFound />} />
       </Routes>
     </LangProvider>

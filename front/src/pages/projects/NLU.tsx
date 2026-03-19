@@ -55,7 +55,7 @@ const S = {
     title:   { color:"#ffffff", marginTop:4, marginBottom:20, fontSize:26, lineHeight:1.3 },
     tag:     { display:"inline-block", background:"rgba(123,47,247,0.15)", color:"#b57bff", border:"1px solid rgba(123,47,247,0.4)", borderRadius:4, padding:"3px 10px", fontSize:12, marginRight:6, marginBottom:6 },
     h2:      { color:"#b57bff", fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase" as const, marginBottom:10, marginTop:0 },
-    section: { color:"#aaa", lineHeight:1.85, maxWidth:660, marginTop:0 },
+    section: { color:"#aaa", lineHeight:1.85, marginTop:0 },
     p:       { marginBottom:12, marginTop:0 },
     hr:      { border:"none", borderTop:"1px solid rgba(255,255,255,0.07)", margin:"26px 0" },
     hint:    { color:"#555", fontSize:12 },

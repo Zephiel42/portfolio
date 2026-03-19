@@ -27,7 +27,7 @@ const S = {
     title: { color:"#ffffff", marginTop:4, marginBottom:6, fontSize:26, lineHeight:1.3 },
     sub: { color:"#888", fontSize:14, marginBottom:20 },
     tag: { display:"inline-block", background:"rgba(58,134,255,0.15)", color:"#3a86ff", border:"1px solid rgba(58,134,255,0.4)", borderRadius:4, padding:"3px 10px", fontSize:12, marginRight:6, marginBottom:6 },
-    section: { color:"#aaa", lineHeight:1.85, maxWidth:640, marginTop:20 },
+    section: { color:"#aaa", lineHeight:1.85, marginTop:20 },
     bullet: { marginBottom:10 },
     hr: { border:"none", borderTop:"1px solid rgba(255,255,255,0.07)", margin:"28px 0" },
     hint: { color:"#555", fontSize:12 },

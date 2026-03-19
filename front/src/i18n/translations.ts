@@ -14,6 +14,7 @@ export interface Translations {
         loadError:      string;
         hintExplore:    string;
         hintGame:       string;
+        quickResume:    string;
     };
     game: {
         chooseCard: string;
@@ -55,6 +56,7 @@ export const translations: Record<Lang, Translations> = {
             loadError:      "Could not load objects from server",
             hintExplore:    "🖱 Drag to pan  |  Scroll to zoom  |  Click ground to jump  |  Walk into gold boxes to get cards",
             hintGame:       "🖱 Click ground to jump  |  Click Start Game to play  |  Walk into gold boxes to pick cards",
+            quickResume:    "Quick Resume",
         },
         game: {
             chooseCard: "Choose a card",
@@ -103,6 +105,7 @@ export const translations: Record<Lang, Translations> = {
             loadError:      "Impossible de charger les objets",
             hintExplore:    "🖱 Glisser pour déplacer  |  Molette pour zoomer  |  Clic sol pour sauter  |  Marcher sur les coffres dorés pour des cartes",
             hintGame:       "🖱 Clic sol pour sauter  |  Clic Start Game pour jouer  |  Marcher sur les coffres dorés pour des cartes",
+            quickResume:    "Résumé rapide",
         },
         game: {
             chooseCard: "Choisissez une carte",

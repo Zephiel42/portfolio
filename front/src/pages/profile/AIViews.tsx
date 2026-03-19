@@ -51,7 +51,6 @@ const h2Style: React.CSSProperties = {
 
 const pStyle: React.CSSProperties = {
     lineHeight: 1.85,
-    maxWidth: 660,
     color: "#bbb",
     marginBottom: 16,
     marginTop: 0,

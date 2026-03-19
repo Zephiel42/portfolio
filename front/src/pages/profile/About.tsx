@@ -90,7 +90,6 @@ const S = {
     p: {
         color: "#aaa",
         lineHeight: 1.85,
-        maxWidth: 640,
         marginBottom: 14,
         marginTop: 0,
     },

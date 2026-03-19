@@ -26,7 +26,7 @@ const S = {
     year: { color:"#2a9d8f", fontWeight:600, fontSize:13, letterSpacing:1, textTransform:"uppercase" as const, marginBottom:6 },
     title: { color:"#ffffff", marginTop:4, marginBottom:20, fontSize:26, lineHeight:1.3 },
     tag: { display:"inline-block", background:"rgba(42,157,143,0.18)", color:"#2a9d8f", border:"1px solid rgba(42,157,143,0.4)", borderRadius:4, padding:"3px 10px", fontSize:12, marginRight:6, marginBottom:6 },
-    section: { color:"#aaa", lineHeight:1.85, maxWidth:640, marginTop:20 },
+    section: { color:"#aaa", lineHeight:1.85, marginTop:20 },
     bullet: { marginBottom:10 },
     hr: { border:"none", borderTop:"1px solid rgba(255,255,255,0.07)", margin:"28px 0" },
     hint: { color:"#555", fontSize:12 },
@@ -49,6 +49,20 @@ export default function EcoApp() {
             <img src="/projects/EcoApp/EcoAppDemo.png" alt="EcoApp demo" style={S.img} />
             <img src="/projects/EcoApp/Services.png"   alt="Services architecture" style={S.img} />
             <hr style={S.hr} />
+            <a
+                href="https://github.com/Remigius2003/gl26_ecohome"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                    display: "inline-flex", alignItems: "center", gap: 8,
+                    color: "#2a9d8f", fontSize: 13, textDecoration: "none",
+                    background: "rgba(42,157,143,0.1)", border: "1px solid rgba(42,157,143,0.3)",
+                    borderRadius: 6, padding: "7px 14px", marginBottom: 24,
+                }}
+            >
+                <span style={{ fontWeight: 700 }}>⌥</span> github.com/Remigius2003/gl26_ecohome ↗
+            </a>
+            <br />
             <p style={S.hint}>{t.hint}</p>
         </div>
     );

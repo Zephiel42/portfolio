@@ -28,7 +28,7 @@ export default function Projects() {
             padding: "48px 40px", fontFamily: "sans-serif", boxSizing: "border-box",
         }}>
             <h1 style={{ color: "#4488ff", marginTop: 0, fontSize: 32 }}>{title}</h1>
-            <p style={{ color: "#aaa", lineHeight: 1.8, maxWidth: 640 }}>{intro}</p>
+            <p style={{ color: "#aaa", lineHeight: 1.8 }}>{intro}</p>
             <ul style={{ paddingLeft: 20, lineHeight: 2.2 }}>
                 {items.map((item, i) => (
                     <li key={i} style={{ color: "#ccc" }}>{item}</li>

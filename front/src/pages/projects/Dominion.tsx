@@ -32,7 +32,7 @@ const S = {
     year: { color:"#6a4c93", fontWeight:600, fontSize:13, letterSpacing:1, textTransform:"uppercase" as const, marginBottom:6 },
     title: { color:"#ffffff", marginTop:4, marginBottom:20, fontSize:26, lineHeight:1.3 },
     tag: { display:"inline-block", background:"rgba(106,76,147,0.22)", color:"#a07dd6", border:"1px solid rgba(106,76,147,0.5)", borderRadius:4, padding:"3px 10px", fontSize:12, marginRight:6, marginBottom:6 },
-    section: { color:"#aaa", lineHeight:1.85, maxWidth:640, marginTop:20 },
+    section: { color:"#aaa", lineHeight:1.85, marginTop:20 },
     bullet: { marginBottom:10 },
     hr: { border:"none", borderTop:"1px solid rgba(255,255,255,0.07)", margin:"28px 0" },
     hint: { color:"#555", fontSize:12 },

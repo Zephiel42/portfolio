@@ -5,7 +5,7 @@ import * as THREE from "three";
 // ---------------------------------------------------------------------------
 export function createScene(): THREE.Scene {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1a1a2e);
+    scene.background = new THREE.Color(0x252540);
     return scene;
 }
 
@@ -35,7 +35,7 @@ export function createRenderer(canvas: HTMLDivElement): THREE.WebGLRenderer {
 // Lighting — soft ambient base; face lights provide directional illumination
 // ---------------------------------------------------------------------------
 export function addLighting(scene: THREE.Scene): void {
-    scene.add(new THREE.AmbientLight(0xffffff, 1.8));
+    scene.add(new THREE.AmbientLight(0xffffff, 2.8));
 }
 
 // ---------------------------------------------------------------------------
@@ -43,7 +43,7 @@ export function addLighting(scene: THREE.Scene): void {
 // ---------------------------------------------------------------------------
 export function createGround(): THREE.Mesh {
     const geo  = new THREE.PlaneGeometry(1000, 1000);
-    const mat  = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 1, metalness: 0 });
+    const mat  = new THREE.MeshStandardMaterial({ color: 0x111122, roughness: 1, metalness: 0 });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.rotation.x = -Math.PI / 2;
     mesh.receiveShadow = true;
@@ -56,7 +56,7 @@ export function createInnerGround(bounds: number): THREE.Group {
 
     // Dark base plane
     const geo  = new THREE.PlaneGeometry(size, size);
-    const mat  = new THREE.MeshStandardMaterial({ color: 0x0d0d1f, roughness: 0.95, metalness: 0 });
+    const mat  = new THREE.MeshStandardMaterial({ color: 0x1a1a35, roughness: 0.95, metalness: 0 });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.rotation.x    = -Math.PI / 2;
     mesh.position.y    = 0.005;
@@ -64,17 +64,17 @@ export function createInnerGround(bounds: number): THREE.Group {
     group.add(mesh);
 
     // Major grid lines — every 2 units, blue accent
-    const majorGrid = new THREE.GridHelper(size, size / 2, 0x2255cc, 0x1a2a55);
+    const majorGrid = new THREE.GridHelper(size, size / 2, 0x3366dd, 0x223366);
     majorGrid.position.y = 0.01;
     (majorGrid.material as THREE.LineBasicMaterial).transparent = true;
-    (majorGrid.material as THREE.LineBasicMaterial).opacity     = 0.55;
+    (majorGrid.material as THREE.LineBasicMaterial).opacity     = 0.7;
     group.add(majorGrid);
 
     // Fine sub-grid — every 1 unit, very faint
-    const fineGrid = new THREE.GridHelper(size, size, 0x111830, 0x111830);
+    const fineGrid = new THREE.GridHelper(size, size, 0x1a2840, 0x1a2840);
     fineGrid.position.y = 0.008;
     (fineGrid.material as THREE.LineBasicMaterial).transparent = true;
-    (fineGrid.material as THREE.LineBasicMaterial).opacity     = 0.35;
+    (fineGrid.material as THREE.LineBasicMaterial).opacity     = 0.5;
     group.add(fineGrid);
 
     return group;

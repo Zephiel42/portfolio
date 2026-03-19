@@ -4,9 +4,8 @@ import ThreeEngine, {
     ThreeEngineHandle,
     SceneObject,
 } from "../engine/ThreeEngine";
-import OrientationGizmo, { GizmoFace } from "../engine/OrientationGizmo";
+import OrientationGizmo, { GizmoFace, GizmoHandle } from "../engine/OrientationGizmo";
 import LangButton from "../components/LangButton";
-import SettingsButton from "../components/SettingsButton";
 import InfoButton from "../components/InfoButton";
 import EmbeddedPanel from "../components/EmbeddedPanel";
 import GameHUD from "../components/game/GameHUD";
@@ -57,6 +56,7 @@ interface JumpState {
 // ---------------------------------------------------------------------------
 export default function Home() {
     const engineRef = useRef<ThreeEngineHandle | null>(null);
+    const gizmoRef  = useRef<GizmoHandle>(null);
     const loadedIdsRef = useRef<string[]>([]);
     // sceneId → entry (for mesh click lookups)
     const meshMapRef = useRef<Map<string, LoadedEntry>>(new Map());
@@ -567,11 +567,47 @@ export default function Home() {
             />
 
             <OrientationGizmo
+                ref={gizmoRef}
                 onFaceClick={handleFaceClick}
                 onLitFacesChange={handleLitFaces}
                 labels={t.faces}
                 size={180}
             />
+
+            {/* Face shortcut buttons — to the right of the gizmo */}
+            <div style={{
+                position: "absolute", top: 16, left: 16 + 180 + 10,
+                display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5,
+                zIndex: 10,
+            }}>
+                {([
+                    ["front",  "#ff6347", "255,99,71"  ], ["back",   "#ba55d3", "186,85,211" ],
+                    ["left",   "#3cb371", "60,179,113" ], ["right",  "#6495ed", "100,149,237"],
+                    ["top",    "#ffd700", "255,215,0"  ], ["bottom", "#4a7a7a", "74,122,122" ],
+                ] as [GizmoFace, string, string][]).map(([face, color, rgb]) => (
+                    <button
+                        key={face}
+                        onMouseDown={e => e.stopPropagation()}
+                        onClick={() => { gizmoRef.current?.rotateTo(face); handleFaceClick(face); }}
+                        style={{
+                            background: `rgba(${rgb},0.12)`,
+                            border: `1px solid rgba(${rgb},0.4)`,
+                            color,
+                            fontSize: 10,
+                            fontFamily: "sans-serif",
+                            fontWeight: 700,
+                            letterSpacing: 0.5,
+                            textTransform: "uppercase" as const,
+                            padding: "5px 8px",
+                            borderRadius: 5,
+                            cursor: "pointer",
+                            whiteSpace: "nowrap" as const,
+                        }}
+                    >
+                        {t.faces[face]}
+                    </button>
+                ))}
+            </div>
 
             {/* Name — top right */}
             <div
@@ -612,6 +648,27 @@ export default function Home() {
                 >
                     portfolio
                 </span>
+                <button
+                    onMouseDown={e => e.stopPropagation()}
+                    onClick={() => setPanel({ label: t.ui.quickResume, path: "/quick-resume" })}
+                    style={{
+                        pointerEvents: "auto",
+                        marginTop: 8,
+                        background: "rgba(68,136,255,0.15)",
+                        border: "1px solid rgba(68,136,255,0.35)",
+                        color: "#6aafff",
+                        fontSize: 11,
+                        fontFamily: "sans-serif",
+                        fontWeight: 600,
+                        letterSpacing: 1,
+                        textTransform: "uppercase",
+                        padding: "5px 12px",
+                        borderRadius: 6,
+                        cursor: "pointer",
+                    }}
+                >
+                    {t.ui.quickResume}
+                </button>
             </div>
 
             {/* Buttons below the gizmo */}
@@ -629,7 +686,6 @@ export default function Home() {
                 <InfoButton
                     onOpen={() => setPanel({ label: "Info", path: "/info" })}
                 />
-                <SettingsButton />
             </div>
 
             <div

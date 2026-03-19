@@ -1,8 +1,12 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
 import type { GizmoFace } from "./types";
 
 export type { GizmoFace };
+
+export interface GizmoHandle {
+    rotateTo: (face: GizmoFace) => void;
+}
 
 interface Props {
     onFaceClick?:       (face: GizmoFace) => void;
@@ -16,10 +20,22 @@ const FACE_META: { face: GizmoFace; normal: THREE.Vector3; bg: string; fg: strin
     { face: "right",  normal: new THREE.Vector3( 1,  0,  0), bg: "#6495ed", fg: "#fff" },
     { face: "left",   normal: new THREE.Vector3(-1,  0,  0), bg: "#3cb371", fg: "#fff" },
     { face: "top",    normal: new THREE.Vector3( 0,  1,  0), bg: "#ffd700", fg: "#222" },
-    { face: "bottom", normal: new THREE.Vector3( 0, -1,  0), bg: "#2f4f4f", fg: "#ccc" },
+    { face: "bottom", normal: new THREE.Vector3( 0, -1,  0), bg: "#4a7a7a", fg: "#fff" },
     { face: "front",  normal: new THREE.Vector3( 0,  0,  1), bg: "#ff6347", fg: "#fff" },
     { face: "back",   normal: new THREE.Vector3( 0,  0, -1), bg: "#ba55d3", fg: "#fff" },
 ];
+
+// Camera sits at (0,0,4) looking at origin — these quats make each face point toward camera
+const Y = new THREE.Vector3(0, 1, 0);
+const X = new THREE.Vector3(1, 0, 0);
+const TARGET_QUATS: Record<GizmoFace, THREE.Quaternion> = {
+    front:  new THREE.Quaternion(),
+    back:   new THREE.Quaternion().setFromAxisAngle(Y,  Math.PI),
+    right:  new THREE.Quaternion().setFromAxisAngle(Y, -Math.PI / 2),
+    left:   new THREE.Quaternion().setFromAxisAngle(Y,  Math.PI / 2),
+    top:    new THREE.Quaternion().setFromAxisAngle(X, -Math.PI / 2),
+    bottom: new THREE.Quaternion().setFromAxisAngle(X,  Math.PI / 2),
+};
 
 // Direction the gizmo light comes from (matches gizmo's DirectionalLight position)
 const LIGHT_DIR = new THREE.Vector3(3, 5, 3).normalize();
@@ -64,11 +80,24 @@ function makeFaceTexture(text: string, bg: string, fg: string): THREE.CanvasText
     return new THREE.CanvasTexture(c);
 }
 
-export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels, size = 120 }: Props) {
-    const mountRef          = useRef<HTMLDivElement>(null);
-    const materialsRef      = useRef<THREE.MeshStandardMaterial[]>([]);
-    const litCallbackRef    = useRef(onLitFacesChange);
-    litCallbackRef.current  = onLitFacesChange; // always current without triggering re-render
+const OrientationGizmo = forwardRef<GizmoHandle, Props>(function OrientationGizmo(
+    { onFaceClick, onLitFacesChange, labels, size = 120 },
+    ref,
+) {
+    const mountRef         = useRef<HTMLDivElement>(null);
+    const materialsRef     = useRef<THREE.MeshStandardMaterial[]>([]);
+    const litCallbackRef   = useRef(onLitFacesChange);
+    litCallbackRef.current = onLitFacesChange;
+
+    // Shared mutable refs accessible from both useEffect and useImperativeHandle
+    const cubeRef       = useRef<THREE.Mesh | null>(null);
+    const targetQuatRef = useRef<THREE.Quaternion | null>(null);
+
+    useImperativeHandle(ref, () => ({
+        rotateTo: (face: GizmoFace) => {
+            targetQuatRef.current = TARGET_QUATS[face].clone();
+        },
+    }), []);
 
     // Main effect: build scene once (only recreates on size / onFaceClick change)
     useEffect(() => {
@@ -86,9 +115,8 @@ export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels
         renderer.setClearColor(0x000000, 0);
         mount.appendChild(renderer.domElement);
 
-        // Reduced ambient for dramatic lit/unlit contrast
-        scene.add(new THREE.AmbientLight(0xffffff, 0.2));
-        const dir = new THREE.DirectionalLight(0xffffff, 1.2);
+        scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+        const dir = new THREE.DirectionalLight(0xffffff, 1.0);
         dir.position.set(3, 5, 3);
         scene.add(dir);
 
@@ -102,12 +130,24 @@ export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels
         const cube = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.8, 1.8), materials);
         cube.rotation.set(0.4, 0.6, 0);
         scene.add(cube);
+        cubeRef.current = cube;
 
         let frameId = 0;
         let prevLitKey = "";
 
         const animate = () => {
             frameId = requestAnimationFrame(animate);
+
+            // Smooth rotation toward target face
+            const tq = targetQuatRef.current;
+            if (tq) {
+                cube.quaternion.slerp(tq, 0.1);
+                if (cube.quaternion.angleTo(tq) < 0.005) {
+                    cube.quaternion.copy(tq);
+                    targetQuatRef.current = null;
+                }
+            }
+
             renderer.render(scene, camera);
 
             // Compute which faces are lit by checking normals against light direction
@@ -117,7 +157,6 @@ export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels
                 if (worldNormal.dot(LIGHT_DIR) > 0) litFaces.add(face);
             });
 
-            // Only emit when the set changes
             const litKey = Array.from(litFaces).sort().join(",");
             if (litKey !== prevLitKey) {
                 prevLitKey = litKey;
@@ -198,6 +237,7 @@ export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels
 
         return () => {
             cancelAnimationFrame(frameId);
+            cubeRef.current = null;
             mount.removeEventListener("mousedown",  onMouseDown);
             mount.removeEventListener("mousemove",  onMouseMove);
             mount.removeEventListener("mouseleave", onMouseLeave);
@@ -233,4 +273,6 @@ export default function OrientationGizmo({ onFaceClick, onLitFacesChange, labels
             }}
         />
     );
-}
+});
+
+export default OrientationGizmo;

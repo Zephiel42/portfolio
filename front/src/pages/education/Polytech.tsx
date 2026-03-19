@@ -41,7 +41,7 @@ const S = {
     title:   { color:"#ffffff", marginTop:4, marginBottom:6, fontSize:26, lineHeight:1.3 },
     sub:     { color:"#888", fontSize:14, marginBottom:20 },
     tag:     { display:"inline-block", background:"rgba(67,97,238,0.15)", color:"#7b9dff", border:"1px solid rgba(67,97,238,0.4)", borderRadius:4, padding:"3px 10px", fontSize:12, marginRight:6, marginBottom:6 },
-    section: { color:"#aaa", lineHeight:1.85, maxWidth:640, marginTop:24 },
+    section: { color:"#aaa", lineHeight:1.85, marginTop:24 },
     period:  { color:"#4361ee", fontWeight:600, fontSize:12, letterSpacing:1, textTransform:"uppercase" as const, marginBottom:4 },
     label:   { color:"#eee", fontWeight:600, fontSize:15, marginBottom:8 },
     colTitle:{ color:"#7b9dff", fontWeight:600, fontSize:13, marginBottom:6, marginTop:12 },
