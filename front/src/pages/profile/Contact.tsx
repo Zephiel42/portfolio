@@ -36,7 +36,7 @@ const LINKS = [
         icon: "in",
         label: "LinkedIn",
         value: "linkedin.com/in/matys-grangaud",
-        href: "https://linkedin.com/in/matys-grangaud-050718386",
+        href: "https://linkedin.com/in/matys-grangaud-4200tech",
         color: "#0a66c2",
         bg: "rgba(10,102,194,0.12)",
         border: "rgba(10,102,194,0.35)",
