@@ -111,7 +111,7 @@ const S = {
 
 const T = {
     en: {
-        role: "Engineering Student",
+        role: "Engineering Student · AI, Data, Software & Security",
         school: "Polytech Paris-Saclay · Engineering degree · 2026",
         toeic: "TOEIC 980 / 990",
         expTitle: "Experience",
@@ -132,7 +132,7 @@ const T = {
             {
                 date: "2021 – 2026",
                 place: "Polytech Paris-Saclay",
-                desc: "Engineering degree — Computer Science & AI track",
+                desc: "Engineering degree — Computer Science & Mathematical Engineering (+ AI & Security specialisation)",
             },
         ],
         skillsTitle: "Skills",
@@ -212,7 +212,7 @@ const T = {
         hint: "← Close panel to return to the 3D scene.",
     },
     fr: {
-        role: "Étudiant ingénieur · Développeur",
+        role: "Étudiant ingénieur · IA, Data, Développement & Sécurité",
         school: "Polytech Paris-Saclay · Diplôme d'ingénieur · 2026",
         toeic: "TOEIC 980 / 990",
         expTitle: "Expériences",
@@ -233,7 +233,7 @@ const T = {
             {
                 date: "2021 – 2026",
                 place: "Polytech Paris-Saclay",
-                desc: "Diplôme d'ingénieur — Informatique & IA",
+                desc: "Diplôme d'ingénieur — Informatique et Ingénierie Mathématique (+ spécialisation IA & Sécurité)",
             },
         ],
         skillsTitle: "Compétences",
