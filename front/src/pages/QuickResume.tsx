@@ -1,4 +1,5 @@
 import { useLang } from "../context/LangContext";
+import { CONTACT_LINKS } from "../config/links";
 
 const A = "#4488ff";
 
@@ -208,17 +209,6 @@ const T = {
             { fi: "jp", name: "Japanese", level: "A2" },
             { fi: "de", name: "German", level: "A2" },
         ],
-        contacts: [
-            { label: "matys@grangaud.org", href: "mailto:matys@grangaud.org" },
-            {
-                label: "linkedin.com/in/matys-grangaud",
-                href: "https://linkedin.com/in/matys-grangaud-4200tech",
-            },
-            {
-                label: "github.com/Zephiel42",
-                href: "https://github.com/Zephiel42",
-            },
-        ],
         hint: "← Close panel to return to the 3D scene.",
     },
     fr: {
@@ -320,17 +310,6 @@ const T = {
             { fi: "jp", name: "Japonais", level: "A2" },
             { fi: "de", name: "Allemand", level: "A2" },
         ],
-        contacts: [
-            { label: "matys@grangaud.org", href: "mailto:matys@grangaud.org" },
-            {
-                label: "linkedin.com/in/matys-grangaud",
-                href: "https://linkedin.com/in/matys-grangaud-050718386",
-            },
-            {
-                label: "github.com/Zephiel42",
-                href: "https://github.com/Zephiel42",
-            },
-        ],
         hint: "← Fermer le panneau pour revenir à la scène 3D.",
     },
 };
@@ -352,7 +331,7 @@ export default function QuickResume() {
                     <h1 style={S.name}>Matys Grangaud</h1>
                     <div style={S.role}>{t.role}</div>
                     <div style={S.contacts}>
-                        {t.contacts.map((c) => (
+                        {CONTACT_LINKS.map((c) => (
                             <a
                                 key={c.href}
                                 href={c.href}

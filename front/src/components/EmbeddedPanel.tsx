@@ -10,6 +10,7 @@ export default function EmbeddedPanel({ label, path, onClose }: Props) {
     return (
         <div
             onMouseDown={e => e.stopPropagation()}
+            onClick={onClose}
             style={{
                 position: "fixed", inset: 0, zIndex: 300,
                 background: "rgba(0,0,10,0.75)", backdropFilter: "blur(6px)",
@@ -24,7 +25,7 @@ export default function EmbeddedPanel({ label, path, onClose }: Props) {
                 }
             `}</style>
 
-            <div style={{
+            <div onClick={e => e.stopPropagation()} style={{
                 position: "relative",
                 width: "78vw", height: "82vh",
                 borderRadius: 12, overflow: "hidden",

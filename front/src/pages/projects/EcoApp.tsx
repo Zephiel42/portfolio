@@ -1,4 +1,5 @@
 import { useLang } from "../../context/LangContext";
+import { GITHUB_ECOAPP } from "../../config/links";
 
 const T = {
     en: {
@@ -50,7 +51,7 @@ export default function EcoApp() {
             <img src="/projects/EcoApp/Services.png"   alt="Services architecture" style={S.img} />
             <hr style={S.hr} />
             <a
-                href="https://github.com/Remigius2003/gl26_ecohome"
+                href={GITHUB_ECOAPP}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

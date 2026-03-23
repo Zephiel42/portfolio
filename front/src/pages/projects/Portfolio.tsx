@@ -1,4 +1,5 @@
 import { useLang } from "../../context/LangContext";
+import { GITHUB_PORTFOLIO } from "../../config/links";
 
 const T = {
     en: {
@@ -118,7 +119,7 @@ export default function Portfolio() {
             </div>
             <hr style={S.hr} />
             <a
-                href="https://github.com/Zephiel42/portfolio"
+                href={GITHUB_PORTFOLIO}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

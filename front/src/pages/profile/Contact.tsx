@@ -1,4 +1,5 @@
 import { useLang } from "../../context/LangContext";
+import { CONTACT_CARDS } from "../../config/links";
 
 const T = {
     en: {
@@ -21,38 +22,7 @@ const T = {
     },
 };
 
-const LINKS = [
-    {
-        icon: "@",
-        label: "Email",
-        value: "matys@grangaud.org",
-        href: "mailto:matys@grangaud.org",
-        color: "#06d6a0",
-        bg: "rgba(6,214,160,0.10)",
-        border: "rgba(6,214,160,0.35)",
-        key: "email" as const,
-    },
-    {
-        icon: "in",
-        label: "LinkedIn",
-        value: "linkedin.com/in/matys-grangaud",
-        href: "https://linkedin.com/in/matys-grangaud-4200tech",
-        color: "#0a66c2",
-        bg: "rgba(10,102,194,0.12)",
-        border: "rgba(10,102,194,0.35)",
-        key: "linkedin" as const,
-    },
-    {
-        icon: "⌥",
-        label: "GitHub",
-        value: "github.com/Zephiel42",
-        href: "https://github.com/Zephiel42",
-        color: "#e6edf3",
-        bg: "rgba(255,255,255,0.06)",
-        border: "rgba(255,255,255,0.12)",
-        key: "github" as const,
-    },
-];
+const LINKS = CONTACT_CARDS;
 
 const S = {
     page: {
