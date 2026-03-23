@@ -82,6 +82,9 @@ export default defineConfig(({ mode }) => {
             outDir: "dist",
             copyPublicDir: false,
         },
+        ssr: {
+            noExternal: [],   // keep all deps external in SSR (avoids bundling Three.js)
+        },
         server: {
             port: 3000,
         },
