@@ -9,7 +9,6 @@ import Hobbies  from './pages/profile/Hobbies';
 import Sports   from './pages/profile/Sports';
 import Skills     from './pages/profile/Skills';
 import SoftSkills from './pages/profile/SoftSkills';
-import Projects  from './pages/projects/Projects';
 import EcoApp    from './pages/projects/EcoApp';
 import Game3D    from './pages/projects/Game3D';
 import Dominion  from './pages/projects/Dominion';
@@ -30,7 +29,6 @@ export default function App() {
       <Routes>
         <Route path="/"                    element={<Home />} />
         <Route path="/about"               element={<About />} />
-        <Route path="/projects"            element={<Projects />} />
         <Route path="/projects/eco-app"    element={<EcoApp />} />
         <Route path="/projects/game-3d"    element={<Game3D />} />
         <Route path="/projects/dominion"   element={<Dominion />} />

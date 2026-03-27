@@ -111,7 +111,7 @@ const S = {
 
 const T = {
     en: {
-        role: "Engineering Student · AI, Data, Software & Security",
+        role: "Engineering Student · Software, Security, AI & Data",
         school: "Polytech Paris-Saclay · Engineering degree · 2026",
         toeic: "TOEIC 980 / 990",
         expTitle: "Experience",
@@ -212,7 +212,7 @@ const T = {
         hint: "← Close panel to return to the 3D scene.",
     },
     fr: {
-        role: "Étudiant ingénieur · IA, Data, Développement & Sécurité",
+        role: "Étudiant ingénieur · Développement, Sécurité, IA & Data",
         school: "Polytech Paris-Saclay · Diplôme d'ingénieur · 2026",
         toeic: "TOEIC 980 / 990",
         expTitle: "Expériences",

@@ -19,6 +19,7 @@ import {
 import { useGame } from "./game/useGame";
 import { useToast } from "../hooks/useToast";
 import { useDust } from "../hooks/useDust";
+import SplashScreen from "../components/SplashScreen";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -77,6 +78,7 @@ export default function Home() {
 
     const activeFaceRef = useRef<GizmoFace>("front");
     const [activeFace, setActiveFace] = useState<GizmoFace>("front");
+    const [showSplash, setShowSplash] = useState(true);
 
     const game = useGame(engineRef, movableRef, activeFaceRef);
     const { spawnDust, tickDust } = useDust(engineRef);
@@ -805,6 +807,8 @@ export default function Home() {
                     </button>
                 ))}
             </div>
+
+            {showSplash && <SplashScreen onEnter={() => setShowSplash(false)} />}
 
             {toast && (
                 <div

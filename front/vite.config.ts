@@ -8,7 +8,7 @@ const ROUTES = [
     "/quick-resume",
     "/about", "/skills", "/soft-skills", "/contact",
     "/ai-views", "/hobbies", "/sports", "/reading",
-    "/projects", "/projects/nlu", "/projects/cybersec",
+    "/projects/nlu", "/projects/cybersec",
     "/projects/portfolio", "/projects/game-3d",
     "/projects/dominion", "/projects/eco-app",
     "/experience/visc", "/experience/pyralis",
